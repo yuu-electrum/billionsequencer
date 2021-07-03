@@ -65,7 +65,7 @@
   			"beat": 3,
   			"beat_unit": 4,
   			"lane": -1,
-  			"starts_effect: true,
+  			"starts_effect": true,
    			"effect":
    			{
    				"drawer": "burst"
