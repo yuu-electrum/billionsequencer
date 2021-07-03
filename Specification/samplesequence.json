@@ -1,0 +1,81 @@
+{
+	"global_configurations":
+	{
+		"title": "Sacrifice Escape: 不条理の模倣による感情と代償",
+		"artist": "memex",
+		"sequence_designer": "Futatsuki W. Shina",
+		"artwork": "jacket.png",
+		"lane_count": 6,
+		"background_sound_file": "source.wav",
+		"gauge_replenishment_base_amount": "100",
+		"required_precision_for_judgement": "low"
+	},
+	"measure_magnifications": [
+		{
+			"measure": 0,
+			"magnification": 1.0
+		}
+	],
+  	"bpm_transitions": [
+  		{
+  			"measure": 0,
+  			"bpm": 100
+  		}
+  	],
+  	"notes": [
+  		{
+  			"measure": 0,
+  			"beat": 0,
+  			"beat_unit": 4,
+  			"lane": 0,
+			"velocity_multiplier": 1.0
+  		},
+  		{
+  			"measure": 1,
+  			"beat": 1,
+  			"beat_unit": 4,
+  			"lane": 1,
+  			"spawn_lane": 5,
+			"velocity_multiplier": 1.0
+  		},
+  		{
+  			"measure": 2,
+  			"beat": 2,
+  			"beat_unit": 4,
+  			"lane": 2,
+  			"flick": {
+  				"direction": "up"
+  			}
+  		},
+  		{
+  			"measure": 3,
+  			"beat": 3,
+  			"beat_unit": 4,
+  			"lane": 3,
+  			"starts_long": true
+  		},
+  		{
+  			"measure": 3,
+  			"beat": 4,
+  			"beat_unit": 4,
+  			"lane": 3
+  		},
+  		{
+  			"measure": 4,
+  			"beat": 3,
+  			"beat_unit": 4,
+  			"lane": -1,
+  			"starts_effect: true,
+   			"effect":
+   			{
+   				"drawer": "burst"
+   			}
+  		},
+  		{
+  			"measure": 4,
+  			"beat": 4,
+  			"beat_unit": 4,
+  			"lane": -1
+  		}
+  	]
+}
