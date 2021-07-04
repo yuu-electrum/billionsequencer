@@ -6,6 +6,7 @@
 		"sequence_designer": "Futatsuki W. Shina",
 		"artwork": "jacket.png",
 		"lane_count": 6,
+		"level": 17,
 		"background_sound_file": "source.wav",
 		"gauge_replenishment_base_amount": "100",
 		"required_precision_for_judgement": "low"
@@ -58,7 +59,8 @@
   			"measure": 3,
   			"beat": 4,
   			"beat_unit": 4,
-  			"lane": 3
+  			"lane": 3,
+  			"connects_with": 3
   		},
   		{
   			"measure": 4,
@@ -68,7 +70,11 @@
   			"starts_effect": true,
    			"effect":
    			{
-   				"drawer": "burst"
+   				"drawer": "burst",
+   				"parameters":
+   				{
+   					"concentrates_lanes": true
+   				}
    			}
   		},
   		{
