@@ -2,7 +2,7 @@
 	"language": "ja-JP",
 	"localizations": [
 		{
-			"needle": "%TEASING_AMANA_AND_HIORI%",
+			"key": "teasingAmanaHiori",
 			"replacement": "甘奈と灯織にいじわるしたい"
 		}
 	]
