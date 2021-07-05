@@ -11,7 +11,7 @@ namespace Localization
     /// <summary>
     /// JSONで表現されたローカライズ情報をオブジェクトに変換するクラス
     /// </summary>
-    public class LocalizeAnalyser
+    public class LocalizeAnalyzer
     {
         [DataContract]
         public class LocalizeJson
@@ -39,7 +39,7 @@ namespace Localization
         /// コンストラクタ
         /// </summary>
         /// <param name="jsonText"></param>
-        public LocalizeAnalyser(string jsonText)
+        public LocalizeAnalyzer(string jsonText)
         {
             this.jsonText = jsonText;
         }
@@ -47,7 +47,7 @@ namespace Localization
         /// <summary>
         /// JSONデータを解析する
         /// </summary>
-        public Localize Analyse()
+        public Localize Analyze()
         {
             var serializer = new DataContractJsonSerializer(typeof(LocalizeJson));
             var memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(jsonText));

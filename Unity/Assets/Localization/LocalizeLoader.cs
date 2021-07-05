@@ -49,7 +49,7 @@ namespace Localization
         {
             if(path == null || !File.Exists(path))
             {
-                Debug.LogFormat("A file {0} is not existing.", path);
+                Debug.LogFormat("A localization file {0} is not existing.", path);
                 return false;
             }
 
@@ -61,8 +61,8 @@ namespace Localization
                 streamReader.Close();
 
                 // ローカライズ情報として読み込む
-                var analyser = new LocalizeAnalyser(raw);
-                var localize = analyser.Analyse();
+                var analyzer = new LocalizeAnalyzer(raw);
+                var localize = analyzer.Analyze();
 
                 localizations.Add(localize.Locale, localize);
             }
@@ -92,11 +92,22 @@ namespace Localization
         {
             if(currentLocale == null || !localizations.ContainsKey(currentLocale))
             {
-                Debug.LogFormat("A localization with the current locale {0} is not found.", currentLocale);
+                Debug.LogFormat("A localization with key {0} in the current locale {1} is not found.", key, currentLocale);
                 return "";
             }
 
             return localizations[currentLocale].Find(key);
+        }
+
+        /// <summary>
+        /// ローカライズ情報を取得し、書式付き文字列が設定されている場合は渡された配列でそれを置き換える
+        /// </summary>
+        /// <param name="key">ローカライズ情報のキー</param>
+        /// <param name="formatCorrespondingValues">書式付き文字列に対応するパラメータ</param>
+        /// <returns></returns>
+        public string Format(string key, params string[] formatCorrespondingValues)
+        {
+            return String.Format(Find(key), formatCorrespondingValues);
         }
     }
 }

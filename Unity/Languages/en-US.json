@@ -1,0 +1,9 @@
+{
+	"language": "en-US",
+	"localizations": [
+		{
+			"key": "PressKeyAny",
+			"replacement": "PRESS ANY KEY"
+		}
+	]
+}
