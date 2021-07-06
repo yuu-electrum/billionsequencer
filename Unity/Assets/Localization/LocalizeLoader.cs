@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;
-using System.IO;
 
 namespace Localization
 {
@@ -40,38 +39,10 @@ namespace Localization
             }
         }
 
-        /// <summary>
-        /// ローカライズ情報を読み込む
-        /// </summary>
-        /// <param name="path">ローカライズ情報が含まれるテキストファイル</param>
-        /// <returns>成功時にtrue、失敗時にfalse</returns>
-        public bool Load(string path)
+        public void Initialize(LocalizeAnalyzer analyzer)
         {
-            if(path == null || !File.Exists(path))
-            {
-                Debug.LogFormat("A localization file {0} is not existing.", path);
-                return false;
-            }
-
-            try
-            {
-                // JSONで記述された生のデータを読み込む
-                var streamReader = new StreamReader(path);
-                string raw = streamReader.ReadToEnd();
-                streamReader.Close();
-
-                // ローカライズ情報として読み込む
-                var analyzer = new LocalizeAnalyzer(raw);
-                var localize = analyzer.Analyze();
-
-                localizations.Add(localize.Locale, localize);
-            }
-            catch(Exception e)
-            {
-                Debug.LogFormat("Failed to load a localization file at {0}. Detail: {1}", path, e.ToString());
-            }
-
-            return true;
+            var localize = analyzer.Analyze();
+            localizations.Add(localize.Locale, localize);
         }
 
         /// <summary>
@@ -92,7 +63,7 @@ namespace Localization
         {
             if(currentLocale == null || !localizations.ContainsKey(currentLocale))
             {
-                Debug.LogFormat("A localization with key {0} in the current locale {1} is not found.", key, currentLocale);
+                Debug.LogErrorFormat("A localization with key {0} in the current locale {1} is not found.", key, currentLocale);
                 return "";
             }
 

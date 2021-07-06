@@ -5,6 +5,7 @@ using System.Runtime.Serialization.Json;
 using System.IO;
 using System.Text;
 using UnityEngine;
+using ResourceLoader;
 
 namespace Localization
 {
@@ -39,9 +40,9 @@ namespace Localization
         /// コンストラクタ
         /// </summary>
         /// <param name="jsonText"></param>
-        public LocalizeAnalyzer(string jsonText)
+        public LocalizeAnalyzer(ResourceLoader.TextLoader reader)
         {
-            this.jsonText = jsonText;
+            this.jsonText = reader.ReadAll();
         }
 
         /// <summary>

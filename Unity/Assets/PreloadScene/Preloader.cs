@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using Localization;
+using ResourceLoader;
 
 namespace PreloadScene
 {
@@ -14,16 +16,21 @@ namespace PreloadScene
         {
             // ゲームの実行されているディレクトリを取得する
 #if UNITY_EDITOR
-            var filePath = Directory.GetCurrentDirectory().Replace("\\", "/");
+            var filePath = Directory.GetCurrentDirectory();
 #else
-            var filePath = System.AppDomain.CurrentDomain.BaseDirectory.TrimEnd("\\").Replace("\\", "/");
+            var filePath = System.AppDomain.CurrentDomain.BaseDirectory.TrimEnd("\\");
 #endif
 
             // とりあえず仮で英語の言語設定にしておく
-            Localization.LocalizeLoader.Instance.Load(string.Format("{0}/Languages/en-US.json", filePath));
-            Localization.LocalizeLoader.Instance.SetLocale("en-US");
+            var jsonFilePath = string.Format("{0}\\Languages\\en-US.json", filePath);
+            var jsonReader = new ResourceLoader.TextLoader(jsonFilePath);
+            LocalizeLoader.Instance.Initialize(new LocalizeAnalyzer(jsonReader));
+            LocalizeLoader.Instance.SetLocale("en-US");
 
-            UnityEngine.SceneManagement.SceneManager.LoadScene("TitleScene");
+            var sqlserver = new SQLiteServer.SQLiteServer();
+            sqlserver.Start(filePath, "game.db");
+
+            //UnityEngine.SceneManagement.SceneManager.LoadScene("TitleScene");
         }
     }
 }
