@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SQLiteServer
+namespace SQLiteManagement
 {
     namespace Migrations
     {
@@ -34,7 +34,7 @@ CREATE TABLE players
 (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     guid STRING NOT NULL,
-    player_name STRING
+    player_name STRING DEFAULT 'sayoko_takayama'
 );
 
 CREATE TABLE chart_profiles

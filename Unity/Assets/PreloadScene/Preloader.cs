@@ -1,9 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using UnityEngine;
 using Localization;
 using ResourceLoader;
+using Database.SQLite;
+using Database.SQLite.Models;
+using SQLiteManagement;
 
 namespace PreloadScene
 {
@@ -23,12 +28,23 @@ namespace PreloadScene
 
             // とりあえず仮で英語の言語設定にしておく
             var jsonFilePath = string.Format("{0}\\Languages\\en-US.json", filePath);
-            var jsonReader = new ResourceLoader.TextLoader(jsonFilePath);
+            var jsonReader = new TextLoader(jsonFilePath);
             LocalizeLoader.Instance.Initialize(new LocalizeAnalyzer(jsonReader));
-            LocalizeLoader.Instance.SetLocale("en-US");
+            LocalizeLoader.Instance.Locale = "en-US";
 
-            var sqlserver = new SQLiteServer.SQLiteServer();
+            var sqlserver = new SQLiteServer();
             sqlserver.Start(filePath, "game.db");
+
+            // プレイヤー登録
+            // スキーマ的には複数人登録できるが、しばらくはプレイヤー切り替え機能は実装しない
+            var players = sqlserver.InstantiateNewQueryBuilder().Table("players").Select("*").Execute<Players>();
+            if(players.RecordCount == 0)
+            {
+                // 最初の起動時にはプレイヤー登録をする
+                sqlserver.InstantiateNewQueryBuilder().Table("players").Insert(null, Guid.NewGuid().ToString(), "sayoko_takayama").Execute();
+            }
+
+            sqlserver.Close();
 
             //UnityEngine.SceneManagement.SceneManager.LoadScene("TitleScene");
         }

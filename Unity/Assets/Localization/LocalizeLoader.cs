@@ -46,12 +46,20 @@ namespace Localization
         }
 
         /// <summary>
-        /// ロケールを設定する
+        /// ロケールを取得または設定する
         /// </summary>
         /// <param name="locale">ロケールコード</param>
-        public void SetLocale(string locale)
+        public string Locale
         {
-            currentLocale = locale;
+            set
+            {
+                currentLocale = value;
+            }
+
+            get
+            {
+                return currentLocale;
+            }
         }
 
         /// <summary>

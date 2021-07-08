@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using SQLiteUnity;
+using Database.SQLite;
 
-namespace SQLiteServer
+namespace SQLiteManagement
 {
     /// <summary>
     /// SQLiteデータベースをサーバ的に管理するクラス
@@ -13,6 +14,11 @@ namespace SQLiteServer
     public class SQLiteServer
     {
         private SQLite sqLiteInstance;
+
+        public SQLiteQueryBuilder InstantiateNewQueryBuilder()
+        {
+            return new SQLiteQueryBuilder(sqLiteInstance);
+        }
 
         /// <summary>
         /// データベースサーバを起動する
@@ -41,6 +47,14 @@ namespace SQLiteServer
 
             var migrator = new SQLiteMigrator(sqLiteInstance);
             migrator.Execute();
+        }
+
+        /// <summary>
+        /// データベースサーバをシャットダウンする
+        /// </summary>
+        public void Close()
+        {
+            sqLiteInstance.Dispose();
         }
     }
 }

@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using SQLiteUnity;
-using SQLiteServer.Migrations;
+using SQLiteManagement.Migrations;
 
-namespace SQLiteServer
+namespace SQLiteManagement
 {
     /// <summary>
     /// SQLiteデータベースに対してマイグレーションを実行するクラス
