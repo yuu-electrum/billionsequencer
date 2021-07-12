@@ -15,9 +15,13 @@
 		{
 			"measure": 0,
 			"magnification": 1.0
-		}
+		},
+		{
+			"measure": 1,
+			"magnification": 1.0
+		},
 	],
-  	"bpm_transitions": [
+	"bpm_transitions": [
   		{
   			"measure": 0,
   			"bpm": 100

@@ -32,19 +32,19 @@ namespace Database.SQLite
 
         public IQueryBuilder Where(string column, string comparisonOperator, string value)
         {
-            stringParts.Append(string.Format("WHERE {0} {1} {2}{3}", column, comparisonOperator, value, System.Environment.NewLine));
+            stringParts.Append(string.Format("WHERE {0} {1} {2}{3}", column, comparisonOperator, QuotationConverter.Convert(value), System.Environment.NewLine));
             return this;
         }
 
         public IQueryBuilder AndWhere(string column, string comparisonOperator, string value)
         {
-            stringParts.Append(string.Format("AND {0} {1} {2}{3}", column, comparisonOperator, value, System.Environment.NewLine));
+            stringParts.Append(string.Format("AND {0} {1} {2}{3}", column, comparisonOperator, QuotationConverter.Convert(value), System.Environment.NewLine));
             return this;
         }
 
         public IQueryBuilder OrWhere(string column, string comparisonOperator, string value)
         {
-            stringParts.Append(string.Format("OR {0} {1} {2}{3}", column, comparisonOperator, value, System.Environment.NewLine));
+            stringParts.Append(string.Format("OR {0} {1} {2}{3}", column, comparisonOperator, QuotationConverter.Convert(value), System.Environment.NewLine));
             return this;
         }
 
@@ -99,21 +99,7 @@ namespace Database.SQLite
             stringParts.Append(string.Format("INSERT INTO {0} VALUES (", table));
             for(var columnIndex = 0; columnIndex < insertingValues.Length; columnIndex++)
             {
-                var insertingValue = insertingValues[columnIndex];
-
-                int parsedInt;
-                float parsedFloat;
-                double parsedDouble;
-
-                bool isNumeric = int.TryParse(insertingValue, out parsedInt) || float.TryParse(insertingValue, out parsedFloat) || double.TryParse(insertingValue, out parsedDouble);
-                if(!isNumeric && insertingValue == null)
-                {
-                    insertingValue = "NULL";
-                }
-                else if(!isNumeric)
-                {
-                    insertingValue = string.Format("'{0}'", insertingValue);
-                }
+                var insertingValue = QuotationConverter.Convert(insertingValues[columnIndex]);
 
                 if(columnIndex == insertingValues.Length - 1)
                 {

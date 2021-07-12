@@ -6,9 +6,9 @@ using SQLiteUnity;
 namespace Database.SQLite.Models
 {
     /// <summary>
-    /// "players"テーブルのモデル
+    /// "chart_hashes"テーブルのモデル
     /// </summary>
-    public class Players
+    public class ChartHashes
     {
         private SQLiteRow origin;
 
@@ -16,7 +16,7 @@ namespace Database.SQLite.Models
         /// コンストラクタ
         /// </summary>
         /// <param name="record">レコード</param>
-        public Players(SQLiteRow record)
+        public ChartHashes(SQLiteRow record)
         {
             origin = record;
         }
@@ -29,19 +29,11 @@ namespace Database.SQLite.Models
             }
         }
 
-        public string Guid
+        public string ChartHash
         {
             get
             {
-                return origin.GetColumn<string>("guid", "");
-            }
-        }
-
-        public string PlayerName
-        {
-            get
-            {
-                return origin.GetColumn<string>("player_name", "sayoko_takayama");
+                return origin.GetColumn<string>("chart_hash", "");
             }
         }
     }

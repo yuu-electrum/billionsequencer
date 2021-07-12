@@ -1,0 +1,44 @@
+{
+    "name": "TitleAction",
+    "maps": [
+        {
+            "name": "UI",
+            "id": "894f523e-4ba1-48a4-8645-6bed2a0b2f2c",
+            "actions": [
+                {
+                    "name": "Proceed",
+                    "type": "Button",
+                    "id": "0ab1f17d-e52a-48cc-8d1b-6e89e820b2fe",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "f59762c3-8cb7-4355-97c2-5d7a8a0a8bf7",
+                    "path": "<Keyboard>/anyKey",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Proceed",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cdc88c79-178b-476e-abba-d218a4247a00",
+                    "path": "<Mouse>/press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Proceed",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

@@ -11,5 +11,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TitleScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/ChartLoadScene.unity
+    guid: ab16b6ca29c26eb4c836d1bfa0eddf2a
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 58b3bb7cb41b82040a2d01b07a01d57d, type: 2}

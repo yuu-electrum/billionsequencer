@@ -39,10 +39,10 @@ namespace Localization
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="jsonText"></param>
+        /// <param name="reader"></param>
         public LocalizeAnalyzer(ResourceLoader.TextLoader reader)
         {
-            this.jsonText = reader.ReadAll();
+            jsonText = reader.ReadAll();
         }
 
         /// <summary>

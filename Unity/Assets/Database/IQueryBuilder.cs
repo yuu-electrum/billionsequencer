@@ -91,6 +91,6 @@ namespace Database
         /// <summary>
         /// 単にクエリを実行する
         /// </summary>
-        public void Execute()
+        public void Execute();
     }
 }

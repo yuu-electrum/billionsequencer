@@ -45,7 +45,8 @@ CREATE TABLE chart_profiles
     artist STRING,
     lane_count INTEGER NOT NULL,
     level INTEGER NOT NULL,
-    bpm REAL NOT NULL,
+    min_bpm REAL NOT NULL,
+    max_bpm REAL NOT NULL,
     sequence_designer STRING,
     FOREIGN KEY(chart_hash) REFERENCES chart_hashes(chart_hash)
 );

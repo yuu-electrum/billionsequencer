@@ -19,21 +19,14 @@ namespace PreloadScene
     {
         public void Start()
         {
-            // ゲームの実行されているディレクトリを取得する
-#if UNITY_EDITOR
-            var filePath = Directory.GetCurrentDirectory();
-#else
-            var filePath = System.AppDomain.CurrentDomain.BaseDirectory.TrimEnd("\\");
-#endif
-
             // とりあえず仮で英語の言語設定にしておく
-            var jsonFilePath = string.Format("{0}\\Languages\\en-US.json", filePath);
+            var jsonFilePath = string.Format("{0}\\Languages\\en-US.json", Constant.Path.WorkingDirectory);
             var jsonReader = new TextLoader(jsonFilePath);
             LocalizeLoader.Instance.Initialize(new LocalizeAnalyzer(jsonReader));
             LocalizeLoader.Instance.Locale = "en-US";
 
             var sqlserver = new SQLiteServer();
-            sqlserver.Start(filePath, "game.db");
+            sqlserver.Start(Constant.Path.WorkingDirectory, Constant.SQLite.DatabaseInstanceFileName);
 
             // プレイヤー登録
             // スキーマ的には複数人登録できるが、しばらくはプレイヤー切り替え機能は実装しない
@@ -46,7 +39,7 @@ namespace PreloadScene
 
             sqlserver.Close();
 
-            //UnityEngine.SceneManagement.SceneManager.LoadScene("TitleScene");
+            UnityEngine.SceneManagement.SceneManager.LoadScene("ChartLoadScene");
         }
     }
 }
