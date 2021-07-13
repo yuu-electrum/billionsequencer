@@ -74,3 +74,6 @@ crashlytics-build.properties
 # SQLite Database Instance File
 game.db
 
+# Directories to be Ignored
+/Unity/Charts
+/Unity/Languages

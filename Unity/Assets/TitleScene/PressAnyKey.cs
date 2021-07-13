@@ -48,6 +48,11 @@ namespace TitleScene
             {
                 allAnimationEnds = animator.GetCurrentAnimatorStateInfo(0).tagHash == sceneExitTriggerStateHash && animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f;
             }
+
+            if(allAnimationEnds)
+            {
+
+            }
         }
     }
 }
