@@ -22,30 +22,30 @@ namespace SQLiteUnity {
 	public class SQLite : IDisposable {
 
 		#region Plugin Access
-		[DllImport ("sqlite3", EntryPoint = "sqlite3_open")] private static extern SQLiteResultCode sqlite3_open (string filename, out IntPtr db);
-		[DllImport ("sqlite3", EntryPoint = "sqlite3_close")] private static extern SQLiteResultCode sqlite3_close (IntPtr db);
-		[DllImport ("sqlite3", EntryPoint = "sqlite3_prepare_v2")] private static extern SQLiteResultCode sqlite3_prepare_v2 (IntPtr db, string zSql, int nByte, out IntPtr ppStmpt, IntPtr pzTail);
-		[DllImport ("sqlite3", EntryPoint = "sqlite3_step")] private static extern SQLiteResultCode sqlite3_step (IntPtr statement);
-		[DllImport ("sqlite3", EntryPoint = "sqlite3_finalize")] private static extern SQLiteResultCode sqlite3_finalize (IntPtr statement);
-		[DllImport ("sqlite3", EntryPoint = "sqlite3_column_count")] private static extern int sqlite3_column_count (IntPtr statement);
-		[DllImport ("sqlite3", EntryPoint = "sqlite3_column_name")] private static extern IntPtr sqlite3_column_name (IntPtr statement, int iCol);
-		[DllImport ("sqlite3", EntryPoint = "sqlite3_column_type")] private static extern SQLiteColumnType sqlite3_column_type (IntPtr statement, int iCol);
-		[DllImport ("sqlite3", EntryPoint = "sqlite3_column_int")] private static extern int sqlite3_column_int (IntPtr statement, int iCol);
-		[DllImport ("sqlite3", EntryPoint = "sqlite3_column_text")] private static extern IntPtr sqlite3_column_text (IntPtr statement, int iCol);
-		[DllImport ("sqlite3", EntryPoint = "sqlite3_column_double")] private static extern double sqlite3_column_double (IntPtr statement, int iCol);
-		[DllImport ("sqlite3", EntryPoint = "sqlite3_column_blob")] private static extern IntPtr sqlite3_column_blob (IntPtr statement, int iCol);
-		[DllImport ("sqlite3", EntryPoint = "sqlite3_column_bytes")] private static extern int sqlite3_column_bytes (IntPtr statement, int iCol);
-		[DllImport ("sqlite3", EntryPoint = "sqlite3_exec")] private static extern SQLiteResultCode sqlite3_exec (IntPtr db, string sql, IntPtr callback, IntPtr args, out IntPtr errorMessage);
-		[DllImport ("sqlite3", EntryPoint = "sqlite3_bind_parameter_index")] private static extern int sqlite3_bind_parameter_index (IntPtr statement, string key);
-		[DllImport ("sqlite3", EntryPoint = "sqlite3_bind_int")] private static extern SQLiteResultCode sqlite3_bind_int (IntPtr statement, int index, int val);
-		[DllImport ("sqlite3", EntryPoint = "sqlite3_bind_text")] private static extern SQLiteResultCode sqlite3_bind_text (IntPtr statement, int index, byte [] value, int length, IntPtr freeType);
-		[DllImport ("sqlite3", EntryPoint = "sqlite3_bind_blob")] private static extern SQLiteResultCode sqlite3_bind_blob (IntPtr statement, int index, byte [] value, int length, IntPtr freeType);
-		[DllImport ("sqlite3", EntryPoint = "sqlite3_bind_double")] private static extern SQLiteResultCode sqlite3_bind_double (IntPtr statement, int index, double value);
-		[DllImport ("sqlite3", EntryPoint = "sqlite3_bind_null")] private static extern SQLiteResultCode sqlite3_bind_null (IntPtr statement, int index);
-		[DllImport ("sqlite3", EntryPoint = "sqlite3_free")] private static extern SQLiteResultCode sqlite3_free (IntPtr memory);
-		[DllImport ("sqlite3", EntryPoint = "sqlite3_errmsg")] private static extern IntPtr sqlite3_errmsg (IntPtr db);
-		[DllImport ("sqlite3", EntryPoint = "sqlite3_errcode")] private static extern SQLiteResultCode sqlite3_errcode (IntPtr db);
-		[DllImport ("sqlite3", EntryPoint = "sqlite3_extended_errcode")] private static extern SQLiteResultCode sqlite3_extended_errcode (IntPtr db);
+		[DllImport ("libsqliteX", EntryPoint = "sqlite3_open")] private static extern SQLiteResultCode sqlite3_open (string filename, out IntPtr db);
+		[DllImport ("libsqliteX", EntryPoint = "sqlite3_close")] private static extern SQLiteResultCode sqlite3_close (IntPtr db);
+		[DllImport ("libsqliteX", EntryPoint = "sqlite3_prepare_v2")] private static extern SQLiteResultCode sqlite3_prepare_v2 (IntPtr db, string zSql, int nByte, out IntPtr ppStmpt, IntPtr pzTail);
+		[DllImport ("libsqliteX", EntryPoint = "sqlite3_step")] private static extern SQLiteResultCode sqlite3_step (IntPtr statement);
+		[DllImport ("libsqliteX", EntryPoint = "sqlite3_finalize")] private static extern SQLiteResultCode sqlite3_finalize (IntPtr statement);
+		[DllImport ("libsqliteX", EntryPoint = "sqlite3_column_count")] private static extern int sqlite3_column_count (IntPtr statement);
+		[DllImport ("libsqliteX", EntryPoint = "sqlite3_column_name")] private static extern IntPtr sqlite3_column_name (IntPtr statement, int iCol);
+		[DllImport ("libsqliteX", EntryPoint = "sqlite3_column_type")] private static extern SQLiteColumnType sqlite3_column_type (IntPtr statement, int iCol);
+		[DllImport ("libsqliteX", EntryPoint = "sqlite3_column_int")] private static extern int sqlite3_column_int (IntPtr statement, int iCol);
+		[DllImport ("libsqliteX", EntryPoint = "sqlite3_column_text")] private static extern IntPtr sqlite3_column_text (IntPtr statement, int iCol);
+		[DllImport ("libsqliteX", EntryPoint = "sqlite3_column_double")] private static extern double sqlite3_column_double (IntPtr statement, int iCol);
+		[DllImport ("libsqliteX", EntryPoint = "sqlite3_column_blob")] private static extern IntPtr sqlite3_column_blob (IntPtr statement, int iCol);
+		[DllImport ("libsqliteX", EntryPoint = "sqlite3_column_bytes")] private static extern int sqlite3_column_bytes (IntPtr statement, int iCol);
+		[DllImport ("libsqliteX", EntryPoint = "sqlite3_exec")] private static extern SQLiteResultCode sqlite3_exec (IntPtr db, string sql, IntPtr callback, IntPtr args, out IntPtr errorMessage);
+		[DllImport ("libsqliteX", EntryPoint = "sqlite3_bind_parameter_index")] private static extern int sqlite3_bind_parameter_index (IntPtr statement, string key);
+		[DllImport ("libsqliteX", EntryPoint = "sqlite3_bind_int")] private static extern SQLiteResultCode sqlite3_bind_int (IntPtr statement, int index, int val);
+		[DllImport ("libsqliteX", EntryPoint = "sqlite3_bind_text")] private static extern SQLiteResultCode sqlite3_bind_text (IntPtr statement, int index, byte [] value, int length, IntPtr freeType);
+		[DllImport ("libsqliteX", EntryPoint = "sqlite3_bind_blob")] private static extern SQLiteResultCode sqlite3_bind_blob (IntPtr statement, int index, byte [] value, int length, IntPtr freeType);
+		[DllImport ("libsqliteX", EntryPoint = "sqlite3_bind_double")] private static extern SQLiteResultCode sqlite3_bind_double (IntPtr statement, int index, double value);
+		[DllImport ("libsqliteX", EntryPoint = "sqlite3_bind_null")] private static extern SQLiteResultCode sqlite3_bind_null (IntPtr statement, int index);
+		[DllImport ("libsqliteX", EntryPoint = "sqlite3_free")] private static extern SQLiteResultCode sqlite3_free (IntPtr memory);
+		[DllImport ("libsqliteX", EntryPoint = "sqlite3_errmsg")] private static extern IntPtr sqlite3_errmsg (IntPtr db);
+		[DllImport ("libsqliteX", EntryPoint = "sqlite3_errcode")] private static extern SQLiteResultCode sqlite3_errcode (IntPtr db);
+		[DllImport ("libsqliteX", EntryPoint = "sqlite3_extended_errcode")] private static extern SQLiteResultCode sqlite3_extended_errcode (IntPtr db);
 		#endregion
 
 		public bool IsOpen { // コネクションがある

@@ -1,7 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using UnityEngine;
+using Localization;
+using ResourceLoader;
+using Database.SQLite;
+using Database.SQLite.Models;
+using SQLiteManagement;
 
 namespace PreloadScene
 {
@@ -12,18 +19,27 @@ namespace PreloadScene
     {
         public void Start()
         {
-            // ゲームの実行されているディレクトリを取得する
-#if UNITY_EDITOR
-            var filePath = Directory.GetCurrentDirectory().Replace("\\", "/");
-#else
-            var filePath = System.AppDomain.CurrentDomain.BaseDirectory.TrimEnd("\\").Replace("\\", "/");
-#endif
-
             // とりあえず仮で英語の言語設定にしておく
-            Localization.LocalizeLoader.Instance.Load(string.Format("{0}/Languages/en-US.json", filePath));
-            Localization.LocalizeLoader.Instance.SetLocale("en-US");
+            var jsonFilePath = string.Format("{0}\\Languages\\en-US.json", Constant.Path.WorkingDirectory);
+            var jsonReader = new TextLoader(jsonFilePath);
+            LocalizeLoader.Instance.Initialize(new LocalizeAnalyzer(jsonReader));
+            LocalizeLoader.Instance.Locale = "en-US";
 
-            UnityEngine.SceneManagement.SceneManager.LoadScene("TitleScene");
+            var sqlserver = new SQLiteServer();
+            sqlserver.Start(Constant.Path.WorkingDirectory, Constant.SQLite.DatabaseInstanceFileName);
+
+            // プレイヤー登録
+            // スキーマ的には複数人登録できるが、しばらくはプレイヤー切り替え機能は実装しない
+            var players = sqlserver.InstantiateNewQueryBuilder().Table("players").Select("*").Execute<Players>();
+            if(players.RecordCount == 0)
+            {
+                // 最初の起動時にはプレイヤー登録をする
+                sqlserver.InstantiateNewQueryBuilder().Table("players").Insert(null, Guid.NewGuid().ToString(), "sayoko_takayama").Execute();
+            }
+
+            sqlserver.Close();
+
+            UnityEngine.SceneManagement.SceneManager.LoadScene("ChartLoadScene");
         }
     }
 }

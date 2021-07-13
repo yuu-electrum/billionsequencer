@@ -70,3 +70,10 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /Unity/[Aa]ssets/[Ss]treamingAssets/aa.meta
 /Unity/[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# SQLite Database Instance File
+game.db
+
+# Directories to be Ignored
+/Unity/Charts
+/Unity/Languages
