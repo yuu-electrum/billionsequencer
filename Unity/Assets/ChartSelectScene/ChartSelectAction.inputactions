@@ -1,0 +1,52 @@
+{
+    "name": "ChartSelectAction",
+    "maps": [
+        {
+            "name": "UI",
+            "id": "235bbf52-fac0-4039-a44b-2c7442bb5545",
+            "actions": [
+                {
+                    "name": "Down",
+                    "type": "Button",
+                    "id": "b0d5c7f2-e739-40dc-9c24-58e6624efffa",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Up",
+                    "type": "Button",
+                    "id": "34301c57-bc53-4522-84ff-5cbc945ef189",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "032a8e84-23a4-4b8c-916e-71df520b37b3",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Down",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d1b8e6e9-ed3f-4758-99f6-416057098ec9",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Up",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

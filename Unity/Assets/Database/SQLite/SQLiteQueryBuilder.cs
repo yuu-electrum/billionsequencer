@@ -126,6 +126,31 @@ namespace Database.SQLite
             return this;
         }
 
+        /*
+        public IQueryBuilder ExecuteGroupBy(params string[] groupingColumns)
+        {
+            if(string.IsNullOrEmpty(table))
+            {
+                return this;
+            }
+
+            stringParts.Append(string.Format("GROUP BY "));
+            for(var columnIndex = 0; columnIndex < groupingColumns.Length; columnIndex++)
+            {
+                if(columnIndex < groupingColumns.Length - 1)
+                {
+                    stringParts.Append(string.Format("{0}, ", groupingColumns[columnIndex]));
+                }
+                else
+                {
+                    stringParts.Append(string.Format("{0}{1};", groupingColumns[columnIndex], System.Environment.NewLine));
+                }
+            }
+
+            return this;
+        }
+        */
+
         public IQueryResult<T> Execute<T>()
         {
             var result = sqLiteInstance.ExecuteQuery(ExecutionQuery);

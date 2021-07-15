@@ -30,11 +30,11 @@ namespace PreloadScene
 
             // プレイヤー登録
             // スキーマ的には複数人登録できるが、しばらくはプレイヤー切り替え機能は実装しない
-            var players = sqlserver.InstantiateNewQueryBuilder().Table("players").Select("*").Execute<Players>();
+            var players = sqlserver.InstantiateNewQueryBuilder().Table("players").Select("*").Execute<Player>();
             if(players.RecordCount == 0)
             {
                 // 最初の起動時にはプレイヤー登録をする
-                sqlserver.InstantiateNewQueryBuilder().Table("players").Insert(null, Guid.NewGuid().ToString(), "sayoko_takayama").Execute();
+                sqlserver.InstantiateNewQueryBuilder().Table("players").Insert(null, Guid.NewGuid().ToString(), Constant.SQLite.DefaultPlayerName).Execute();
             }
 
             sqlserver.Close();

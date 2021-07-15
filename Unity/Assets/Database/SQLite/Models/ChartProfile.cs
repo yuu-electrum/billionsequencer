@@ -8,15 +8,14 @@ namespace Database.SQLite.Models
     /// <summary>
     /// "chart_profiles"テーブルのモデル
     /// </summary>
-    public class ChartProfiles
+    public class ChartProfile
     {
         private SQLiteRow origin;
-
         /// <summary>
         /// コンストラクタ
         /// </summary>
         /// <param name="record">レコード</param>
-        public ChartProfiles(SQLiteRow record)
+        public ChartProfile(SQLiteRow record)
         {
             origin = record;
         }
@@ -33,7 +32,12 @@ namespace Database.SQLite.Models
         {
             get
             {
-                return origin.GetColumn<string>("chart_hash", "");
+                if(!origin.ContainsKey("chart_hash"))
+                {
+                    return "";
+                }
+
+                return origin["chart_hash"].ToString();
             }
         }
 
@@ -41,7 +45,12 @@ namespace Database.SQLite.Models
         {
             get
             {
-                return origin.GetColumn<string>("title", "");
+                if(!origin.ContainsKey("title"))
+                {
+                    return "";
+                }
+
+                return origin["title"].ToString();
             }
         }
 
@@ -49,7 +58,12 @@ namespace Database.SQLite.Models
         {
             get
             {
-                return origin.GetColumn<string>("artist", "");
+                if(!origin.ContainsKey("artist"))
+                {
+                    return "";
+                }
+
+                return origin["artist"].ToString();
             }
         }
 
@@ -69,11 +83,19 @@ namespace Database.SQLite.Models
             }
         }
 
-        public double Bpm
+        public double MinBpm
         {
             get
             {
-                return origin.GetColumn<double>("bpm", 0.0);
+                return origin.GetColumn<double>("min_bpm", 0.0);
+            }
+        }
+
+        public double MaxBpm
+        {
+            get
+            {
+                return origin.GetColumn<double>("max_bpm", 0.0);
             }
         }
 
@@ -81,7 +103,12 @@ namespace Database.SQLite.Models
         {
             get
             {
-                return origin.GetColumn<string>("sequence_designer", "");
+                if(!origin.ContainsKey("sequence_designer"))
+                {
+                    return "";
+                }
+
+                return origin["sequence_designer"].ToString();
             }
         }
     }

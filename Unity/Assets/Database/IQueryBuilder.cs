@@ -82,6 +82,15 @@ namespace Database
         /// <returns></returns>
         public IQueryBuilder Delete(string column, string comparisonOperator, string value);
 
+        /*
+        /// <summary>
+        /// 集計文(GROUP BY)
+        /// </summary>
+        /// <param name="groupingColumns"></param>
+        /// <returns></returns>
+        public List<List<Dictionary<string, string>>> ExecuteGroupBy(params string[] groupingColumns);
+        */
+
         /// <summary>
         /// Modelを指定してクエリを実行する
         /// </summary>

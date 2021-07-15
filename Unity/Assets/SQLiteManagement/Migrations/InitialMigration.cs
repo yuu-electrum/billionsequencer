@@ -34,7 +34,7 @@ CREATE TABLE players
 (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     guid STRING NOT NULL,
-    player_name STRING DEFAULT 'sayoko_takayama'
+    player_name STRING DEFAULT '{Constant.SQLite.DefaultPlayerName}'
 );
 
 CREATE TABLE chart_profiles

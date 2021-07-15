@@ -59,7 +59,7 @@ namespace ChartLoadScene
         {
             // 譜面ファイルのSHA256ハッシュを計算する
             var hash = hashCalcurator.Calcurate(new TextLoader(chartFilePath));
-            var existingHashRecord = server.InstantiateNewQueryBuilder().Table("chart_hashes").Select("*").Where("chart_hash", "=", hash).Execute<ChartHashes>();
+            var existingHashRecord = server.InstantiateNewQueryBuilder().Table("chart_hashes").Select("*").Where("chart_hash", "=", hash).Execute<ChartHash>();
             if(existingHashRecord.RecordCount == 1)
             {
                 return RegistrationResult.AlreadyRegistered;
@@ -72,6 +72,7 @@ namespace ChartLoadScene
             }
             catch(Exception e)
             {
+                Debug.LogWarningFormat("Unexpected error occurred when loading a chart {0}. Detail: {1}", chartFilePath, e.ToString());
                 return RegistrationResult.IllegalFormat;
             }
 
