@@ -9,7 +9,7 @@ using Cysharp.Threading.Tasks;
 namespace TitleScene
 {
     /// <summary>
-    /// ƒ^ƒCƒgƒ‹‰æ–Ê‚Å‰½‚©‚Ì‘€ì‚ª‚³‚ê‚½‚É”½‰‚·‚éƒXƒNƒŠƒvƒg
+    /// ã‚¿ã‚¤ãƒˆãƒ«ç”»é¢ã§ä½•ã‹ã®æ“ä½œãŒã•ã‚ŒãŸæ™‚ã«åå¿œã™ã‚‹ã‚¹ã‚¯ãƒªãƒ—ãƒˆ
     /// </summary>
     public class PressAnyKey: MonoBehaviour
     {
@@ -48,7 +48,7 @@ namespace TitleScene
             {
                 action.Disable();
                 StartCoroutine(LoadNextSceneAsync());
-                // ‰½‚©ƒL[‚ª‰Ÿ‚³‚ê‚½‚Ì“®ì
+                // ä½•ã‹ã‚­ãƒ¼ãŒæŠ¼ã•ã‚ŒãŸæ™‚ã®å‹•ä½œ
                 foreach(var animator in animators)
                 {
                     animator.SetBool("WillProceed", true);
@@ -71,7 +71,7 @@ namespace TitleScene
         }
 
         /// <summary>
-        /// Ÿ‚ÌƒV[ƒ“‚ğ”ñ“¯Šú‚Å“Ç‚İ‚Ş
+        /// æ¬¡ã®ã‚·ãƒ¼ãƒ³ã‚’éåŒæœŸã§èª­ã¿è¾¼ã‚€
         /// </summary>
         /// <returns></returns>
         private IEnumerator LoadNextSceneAsync()

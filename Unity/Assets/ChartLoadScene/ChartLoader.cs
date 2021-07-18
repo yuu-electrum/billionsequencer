@@ -13,7 +13,7 @@ using TMPro;
 namespace ChartLoadScene
 {
     /// <summary>
-    /// •ˆ–Ê‚ğ“Ç‚İ‚ŞƒNƒ‰ƒX
+    /// è­œé¢ã‚’èª­ã¿è¾¼ã‚€ã‚¯ãƒ©ã‚¹
     /// </summary>
     public class ChartLoader: MonoBehaviour
     {
@@ -55,18 +55,18 @@ namespace ChartLoadScene
         }
 
         /// <summary>
-        /// •ˆ–Ê‚ğ“Ç‚İ‚Ş
+        /// è­œé¢ã‚’èª­ã¿è¾¼ã‚€
         /// </summary>
-        /// <param name="fileEnumerator">ƒtƒ@ƒCƒ‹‚ğ—ñ‹“‚·‚éEnumerator</param>
-        /// <param name="hashCalcurator">ƒnƒbƒVƒ…‚ğŒvZ‚·‚éƒNƒ‰ƒX</param>
-        /// <param name="register">ƒtƒ@ƒCƒ‹‚ğ“o˜^‚·‚éƒNƒ‰ƒX</param>
+        /// <param name="fileEnumerator">ãƒ•ã‚¡ã‚¤ãƒ«ã‚’åˆ—æŒ™ã™ã‚‹Enumerator</param>
+        /// <param name="hashCalcurator">ãƒãƒƒã‚·ãƒ¥ã‚’è¨ˆç®—ã™ã‚‹ã‚¯ãƒ©ã‚¹</param>
+        /// <param name="register">ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ç™»éŒ²ã™ã‚‹ã‚¯ãƒ©ã‚¹</param>
         /// <returns></returns>
         public async UniTask<bool> LoadChartsInDirectoryAsync(IEnumerable<FileInfo> fileEnumerator, ChartRegister register)
         {
             foreach(var file in fileEnumerator)
             {
                 currentLoadingFilePath = file.FullName;
-                var result = register.Register(file.FullName);
+                var result = register.Register(currentLoadingFilePath);
                 if(result != ChartRegister.RegistrationResult.Done && result == ChartRegister.RegistrationResult.IllegalFormat)
                 {
                     Debug.LogErrorFormat("Chart in {0} was not registered due to its illegal format.", file.FullName, result.ToString());

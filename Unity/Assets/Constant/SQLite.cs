@@ -5,12 +5,12 @@ using UnityEngine;
 namespace Constant
 {
     /// <summary>
-    /// SQLite‚ÉŠÖ‚·‚é’è”
+    /// SQLiteã«é–¢ã™ã‚‹å®šæ•°
     /// </summary>
     public static class SQLite
     {
         /// <summary>
-        /// ƒfƒtƒHƒ‹ƒg‚Ìƒf[ƒ^ƒx[ƒXƒtƒ@ƒCƒ‹–¼
+        /// ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«å
         /// </summary>
         public static string DatabaseInstanceFileName
         {
@@ -21,7 +21,7 @@ namespace Constant
         }
 
         /// <summary>
-        /// ƒfƒtƒHƒ‹ƒg‚ÌƒvƒŒƒCƒ„[–¼
+        /// ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼å
         /// </summary>
         public static string DefaultPlayerName
         {

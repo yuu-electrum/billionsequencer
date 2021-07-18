@@ -7,7 +7,7 @@ namespace SQLiteManagement
     namespace Migrations
     {
         /// <summary>
-        /// マイグレーションのインターフェース
+        /// 繝槭う繧ｰ繝ｬ繝ｼ繧ｷ繝ｧ繝ｳ縺ｮ繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ
         /// </summary>
         public class InitialMigration: IMigration
         {

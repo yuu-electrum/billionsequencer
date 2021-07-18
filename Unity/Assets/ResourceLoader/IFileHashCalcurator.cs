@@ -6,12 +6,12 @@ using System.IO;
 namespace ResourceLoader
 {
     /// <summary>
-    /// w’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ÌƒnƒbƒVƒ…’l‚ğŒvZ‚·‚éƒCƒ“ƒ^[ƒtƒF[ƒX
+    /// æŒ‡å®šã•ã‚ŒãŸãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒãƒƒã‚·ãƒ¥å€¤ã‚’è¨ˆç®—ã™ã‚‹ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹
     /// </summary>
     public interface IFileHashCalcurator
     {
         /// <summary>
-        /// ƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚İAƒnƒbƒVƒ…’l‚ğŒvZ‚·‚é
+        /// ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã¿ã€ãƒãƒƒã‚·ãƒ¥å€¤ã‚’è¨ˆç®—ã™ã‚‹
         /// </summary>
         /// <returns></returns>
         public string Calcurate(TextLoader textLoader);

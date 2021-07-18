@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Database
 {
     /// <summary>
-    /// ��������N�I�[�e�[�V�����ň͂܂ꂽ���̂ɒu��������N���X
+    /// 文字列をクオーテーションで囲まれたものに置き換えるクラス
     /// </summary>
     public class QuotationConverter
     {

@@ -13,14 +13,14 @@ using SQLiteManagement;
 namespace PreloadScene
 {
     /// <summary>
-    /// ƒQ[ƒ€ŠJn‘O‚Ì“Ç‚İ‚İƒNƒ‰ƒX
+    /// ã‚²ãƒ¼ãƒ é–‹å§‹å‰ã®èª­ã¿è¾¼ã¿ã‚¯ãƒ©ã‚¹
     /// </summary>
     public class Preloader: MonoBehaviour
     {
         public void Start()
         {
-            // ‚Æ‚è‚ ‚¦‚¸‰¼‚Å‰pŒê‚ÌŒ¾Œêİ’è‚É‚µ‚Ä‚¨‚­
-            var jsonFilePath = string.Format("{0}\\Languages\\en-US.json", Constant.Path.WorkingDirectory);
+            // ã¨ã‚Šã‚ãˆãšä»®ã§è‹±èªã®è¨€èªè¨­å®šã«ã—ã¦ãŠã
+            var jsonFilePath = string.Format("{0}\\Languages\\en-US.json", Constant.Path.WorkingDirectory).Replace('\\', '/');
             var jsonReader = new TextLoader(jsonFilePath);
             LocalizeLoader.Instance.Initialize(new LocalizeAnalyzer(jsonReader));
             LocalizeLoader.Instance.Locale = "en-US";
@@ -28,12 +28,12 @@ namespace PreloadScene
             var sqlserver = new SQLiteServer();
             sqlserver.Start(Constant.Path.WorkingDirectory, Constant.SQLite.DatabaseInstanceFileName);
 
-            // ƒvƒŒƒCƒ„[“o˜^
-            // ƒXƒL[ƒ}“I‚É‚Í•¡”l“o˜^‚Å‚«‚é‚ªA‚µ‚Î‚ç‚­‚ÍƒvƒŒƒCƒ„[Ø‚è‘Ö‚¦‹@”\‚ÍÀ‘•‚µ‚È‚¢
+            // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ç™»éŒ²
+            // ã‚¹ã‚­ãƒ¼ãƒçš„ã«ã¯è¤‡æ•°äººç™»éŒ²ã§ãã‚‹ãŒã€ã—ã°ã‚‰ãã¯ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼åˆ‡ã‚Šæ›¿ãˆæ©Ÿèƒ½ã¯å®Ÿè£…ã—ãªã„
             var players = sqlserver.InstantiateNewQueryBuilder().Table("players").Select("*").Execute<Player>();
             if(players.RecordCount == 0)
             {
-                // Å‰‚Ì‹N“®‚É‚ÍƒvƒŒƒCƒ„[“o˜^‚ğ‚·‚é
+                // æœ€åˆã®èµ·å‹•æ™‚ã«ã¯ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ç™»éŒ²ã‚’ã™ã‚‹
                 sqlserver.InstantiateNewQueryBuilder().Table("players").Insert(null, Guid.NewGuid().ToString(), Constant.SQLite.DefaultPlayerName).Execute();
             }
 

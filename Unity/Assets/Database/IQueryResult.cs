@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Database
 {
     /// <summary>
-    /// ƒNƒGƒŠŒ‹‰Ê
+    /// ã‚¯ã‚¨ãƒªçµæœ
     /// </summary>
     public interface IQueryResult<T>
     {

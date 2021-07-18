@@ -5,34 +5,34 @@ using UnityEngine;
 namespace GameUI
 {
     /// <summary>
-    /// ŠK‘w\‘¢ƒŠƒXƒg‚ÌƒAƒCƒeƒ€ƒCƒ“ƒ^[ƒtƒF[ƒX
+    /// éšå±¤æ§‹é€ ãƒªã‚¹ãƒˆã®ã‚¢ã‚¤ãƒ†ãƒ ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹
     /// </summary>
     public interface IHierarchyListItem
     {
         /// <summary>
-        /// ƒAƒCƒeƒ€‚Ì¯•Êq
+        /// ã‚¢ã‚¤ãƒ†ãƒ ã®è­˜åˆ¥å­
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// ƒŠƒXƒg‚Å•\¦‚³‚ê‚é‚×‚«•¶š—ñ
+        /// ãƒªã‚¹ãƒˆã§è¡¨ç¤ºã•ã‚Œã‚‹ã¹ãæ–‡å­—åˆ—
         /// </summary>
         public string Label { get; set; }
 
         /// <summary>
-        /// eƒŠƒXƒg
+        /// è¦ªãƒªã‚¹ãƒˆ
         /// </summary>
         public IHierarchyListItem Parent { get; }
 
         /// <summary>
-        /// qƒAƒCƒeƒ€ƒŠƒXƒg
+        /// å­ã‚¢ã‚¤ãƒ†ãƒ ãƒªã‚¹ãƒˆ
         /// </summary>
         public List<IHierarchyListItem> Children { get; }
         
         /// <summary>
-        /// qƒAƒCƒeƒ€‚ğ’Ç‰Á‚·‚é
+        /// å­ã‚¢ã‚¤ãƒ†ãƒ ã‚’è¿½åŠ ã™ã‚‹
         /// </summary>
-        /// <param name="child">qƒAƒCƒeƒ€</param>
+        /// <param name="child">å­ã‚¢ã‚¤ãƒ†ãƒ </param>
         public void AddChild(IHierarchyListItem child);
     }
 }

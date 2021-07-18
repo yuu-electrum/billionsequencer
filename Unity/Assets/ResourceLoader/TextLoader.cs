@@ -7,7 +7,7 @@ using System.IO;
 namespace ResourceLoader
 {
     /// <summary>
-    /// ƒeƒLƒXƒgƒf[ƒ^‚ğ“Ç‚İ‚Ş
+    /// ãƒ†ã‚­ã‚¹ãƒˆãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã‚€
     /// </summary>
     public class TextLoader
     {
@@ -15,9 +15,9 @@ namespace ResourceLoader
         private bool fileExists;
        
         /// <summary>
-        /// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+        /// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
         /// </summary>
-        /// <param name="path">ƒeƒLƒXƒgƒtƒ@ƒCƒ‹‚ÌƒpƒX</param>
+        /// <param name="path">ãƒ†ã‚­ã‚¹ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹</param>
         public TextLoader(string path)
         {
             this.path = path;
@@ -33,9 +33,9 @@ namespace ResourceLoader
         }
 
         /// <summary>
-        /// ƒeƒLƒXƒgƒtƒ@ƒCƒ‹‚Ì’†g‚ğ‚·‚×‚Ä“Ç‚İ‚Ş
+        /// ãƒ†ã‚­ã‚¹ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã®ä¸­èº«ã‚’ã™ã¹ã¦èª­ã¿è¾¼ã‚€
         /// </summary>
-        /// <returns>ƒeƒLƒXƒgƒf[ƒ^</returns>
+        /// <returns>ãƒ†ã‚­ã‚¹ãƒˆãƒ‡ãƒ¼ã‚¿</returns>
         public string ReadAll()
         {
             var streamReader = new StreamReader(path);
@@ -48,7 +48,7 @@ namespace ResourceLoader
 
             try
             {
-                // JSON‚Å‹Lq‚³‚ê‚½¶‚Ìƒf[ƒ^‚ğ“Ç‚İ‚Ş
+                // JSONã§è¨˜è¿°ã•ã‚ŒãŸç”Ÿã®ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã‚€
                 content = streamReader.ReadToEnd();
                 streamReader.Close();
             }

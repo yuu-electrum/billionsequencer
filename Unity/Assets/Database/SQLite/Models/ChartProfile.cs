@@ -6,15 +6,15 @@ using SQLiteUnity;
 namespace Database.SQLite.Models
 {
     /// <summary>
-    /// "chart_profiles"ƒe[ƒuƒ‹‚Ìƒ‚ƒfƒ‹
+    /// "chart_profiles"ãƒ†ãƒ¼ãƒ–ãƒ«ã®ãƒ¢ãƒ‡ãƒ«
     /// </summary>
     public class ChartProfile
     {
         private SQLiteRow origin;
         /// <summary>
-        /// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+        /// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
         /// </summary>
-        /// <param name="record">ƒŒƒR[ƒh</param>
+        /// <param name="record">ãƒ¬ã‚³ãƒ¼ãƒ‰</param>
         public ChartProfile(SQLiteRow record)
         {
             origin = record;

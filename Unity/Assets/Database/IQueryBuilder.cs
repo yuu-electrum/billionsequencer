@@ -7,74 +7,74 @@ using UnityEngine;
 namespace Database
 {
     /// <summary>
-    /// ƒf[ƒ^ƒx[ƒX‚ÉÚ‘±‚·‚éƒCƒ“ƒ^[ƒtƒF[ƒX
+    /// ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã«æ¥ç¶šã™ã‚‹ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹
     /// </summary>
     public interface IQueryBuilder
     {
         /// <summary>
-        /// Às‚·‚éƒNƒGƒŠ
+        /// å®Ÿè¡Œã™ã‚‹ã‚¯ã‚¨ãƒª
         /// </summary>
         public string ExecutionQuery { get; }
 
         /// <summary>
-        /// ğŒ•¶(WHERE)
+        /// æ¡ä»¶æ–‡(WHERE)
         /// </summary>
-        /// <param name="column">ƒJƒ‰ƒ€–¼</param>
-        /// <param name="comparisonOperator">”äŠr‰‰Zq</param>
-        /// <param name="value">’l</param>
+        /// <param name="column">ã‚«ãƒ©ãƒ å</param>
+        /// <param name="comparisonOperator">æ¯”è¼ƒæ¼”ç®—å­</param>
+        /// <param name="value">å€¤</param>
         /// <returns>IQueryBuilder</returns>
         public IQueryBuilder Where(string column, string comparisonOperator, string value);
 
         /// <summary>
-        /// WHERE‚ÉANDğŒ‚ğ‘g‚İ‡‚í‚¹‚é
+        /// WHEREã«ANDæ¡ä»¶ã‚’çµ„ã¿åˆã‚ã›ã‚‹
         /// </summary>
-        /// <param name="column">ƒJƒ‰ƒ€–¼</param>
-        /// <param name="comparisonOperator">”äŠr‰‰Zq</param>
-        /// <param name="value">’l</param>
+        /// <param name="column">ã‚«ãƒ©ãƒ å</param>
+        /// <param name="comparisonOperator">æ¯”è¼ƒæ¼”ç®—å­</param>
+        /// <param name="value">å€¤</param>
         /// <returns>IQueryBuilder</returns>
         public IQueryBuilder AndWhere(string column, string comparisonOperator, string value);
 
         /// <summary>
-        /// WHERE‚ÉORğŒ‚ğ‘g‚İ‡‚í‚¹‚é
+        /// WHEREã«ORæ¡ä»¶ã‚’çµ„ã¿åˆã‚ã›ã‚‹
         /// </summary>
-        /// <param name="column">ƒJƒ‰ƒ€–¼</param>
-        /// <param name="comparisonOperator">”äŠr‰‰Zq</param>
-        /// <param name="value">’l</param>
+        /// <param name="column">ã‚«ãƒ©ãƒ å</param>
+        /// <param name="comparisonOperator">æ¯”è¼ƒæ¼”ç®—å­</param>
+        /// <param name="value">å€¤</param>
         /// <returns>IQueryBuilder</returns>
         public IQueryBuilder OrWhere(string column, string comparisonOperator, string value);
 
         /// <summary>
-        /// ƒe[ƒuƒ‹‚ğw’è‚·‚é
+        /// ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’æŒ‡å®šã™ã‚‹
         /// </summary>
         /// <param name="columns"></param>
         /// <returns>IQueryBuilder</returns>
         public IQueryBuilder Table(string table);
 
         /// <summary>
-        /// ‘I‘ğ•¶(SELECT)
+        /// é¸æŠæ–‡(SELECT)
         /// </summary>
-        /// <param name="columns">ƒJƒ‰ƒ€–¼</param>
+        /// <param name="columns">ã‚«ãƒ©ãƒ å</param>
         /// <returns>IQueryBuilder</returns>
         public IQueryBuilder Select(params string[] columns);
 
         /// <summary>
-        /// XV•¶(UPDATE)
+        /// æ›´æ–°æ–‡(UPDATE)
         /// </summary>
-        /// <param name="column">ƒJƒ‰ƒ€–¼</param>
-        /// <param name="value">’l</param>
+        /// <param name="column">ã‚«ãƒ©ãƒ å</param>
+        /// <param name="value">å€¤</param>
         /// <returns>IQueryBuilder</returns>
         public IQueryBuilder Update(string column, string value);
 
         /// <summary>
-        /// ‘}“ü•¶(INSERT)
+        /// æŒ¿å…¥æ–‡(INSERT)
         /// </summary>
-        /// <param name="insertingValues">‘}“ü‚·‚éƒJƒ‰ƒ€‚Æ’l‚ÌƒyƒA</param>
+        /// <param name="insertingValues">æŒ¿å…¥ã™ã‚‹ã‚«ãƒ©ãƒ ã¨å€¤ã®ãƒšã‚¢</param>
         /// <returns>IQueryBuilder</returns>
         public IQueryBuilder Insert(params string[] insertingValues);
 
 
         /// <summary>
-        /// íœ•¶(DELETE)
+        /// å‰Šé™¤æ–‡(DELETE)
         /// </summary>
         /// <param name="column"></param>
         /// <param name="comparisonOperator"></param>
@@ -84,7 +84,7 @@ namespace Database
 
         /*
         /// <summary>
-        /// WŒv•¶(GROUP BY)
+        /// é›†è¨ˆæ–‡(GROUP BY)
         /// </summary>
         /// <param name="groupingColumns"></param>
         /// <returns></returns>
@@ -92,13 +92,13 @@ namespace Database
         */
 
         /// <summary>
-        /// Model‚ğw’è‚µ‚ÄƒNƒGƒŠ‚ğÀs‚·‚é
+        /// Modelã‚’æŒ‡å®šã—ã¦ã‚¯ã‚¨ãƒªã‚’å®Ÿè¡Œã™ã‚‹
         /// </summary>
-        /// <returns>ƒNƒGƒŠ‚ÌÀsŒ‹‰Ê</returns>
+        /// <returns>ã‚¯ã‚¨ãƒªã®å®Ÿè¡Œçµæœ</returns>
         public IQueryResult<T> Execute<T>();
 
         /// <summary>
-        /// ’P‚ÉƒNƒGƒŠ‚ğÀs‚·‚é
+        /// å˜ã«ã‚¯ã‚¨ãƒªã‚’å®Ÿè¡Œã™ã‚‹
         /// </summary>
         public void Execute();
     }

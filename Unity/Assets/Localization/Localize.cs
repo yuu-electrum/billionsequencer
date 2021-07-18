@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Localization
 {
     /// <summary>
-    /// ƒ[ƒJƒ‰ƒCƒYî•ñƒNƒ‰ƒX
+    /// ãƒ­ãƒ¼ã‚«ãƒ©ã‚¤ã‚ºæƒ…å ±ã‚¯ãƒ©ã‚¹
     /// </summary>
     public class Localize
     {
@@ -13,7 +13,7 @@ namespace Localization
         private Dictionary<string, string> lexicon;
 
         /// <summary>
-        /// ƒƒP[ƒ‹î•ñ‚ğæ“¾‚·‚é
+        /// ãƒ­ã‚±ãƒ¼ãƒ«æƒ…å ±ã‚’å–å¾—ã™ã‚‹
         /// </summary>
         public string Locale
         {
@@ -24,7 +24,7 @@ namespace Localization
         }
 
         /// <summary>
-        /// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+        /// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
         /// </summary>
         /// <param name="locale"></param>
         public Localize(string locale)
@@ -35,17 +35,17 @@ namespace Localization
         }
 
         /// <summary>
-        /// ƒ[ƒJƒ‰ƒCƒYî•ñ‚ğ’Ç‰Á‚·‚é
+        /// ãƒ­ãƒ¼ã‚«ãƒ©ã‚¤ã‚ºæƒ…å ±ã‚’è¿½åŠ ã™ã‚‹
         /// </summary>
-        /// <param name="key">æ“¾‚·‚éÛ‚ÌƒL[</param>
-        /// <param name="replacement">’u‚«Š·‚¦‚é•¶š—ñ</param>
+        /// <param name="key">å–å¾—ã™ã‚‹éš›ã®ã‚­ãƒ¼</param>
+        /// <param name="replacement">ç½®ãæ›ãˆã‚‹æ–‡å­—åˆ—</param>
         public void AddLexicon(string key, string replacement)
         {
             lexicon.Add(key, replacement);
         }
 
         /// <summary>
-        /// ƒ[ƒJƒ‰ƒCƒYî•ñ‚ğ’T‚·
+        /// ãƒ­ãƒ¼ã‚«ãƒ©ã‚¤ã‚ºæƒ…å ±ã‚’æ¢ã™
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>

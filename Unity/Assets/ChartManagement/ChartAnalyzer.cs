@@ -10,14 +10,14 @@ using ResourceLoader;
 namespace ChartManagement
 {
     /// <summary>
-    /// 譜面を読み込んで解析するクラス
+    /// 隴憺擇繧定ｪｭ縺ｿ霎ｼ繧薙〒隗｣譫舌☆繧九け繝ｩ繧ｹ
     /// </summary>
     public class ChartAnalyzer
     {
         private string jsonText;
 
         /// <summary>
-        /// コンストラクタ
+        /// 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ
         /// </summary>
         /// <param name="reader"></param>
         public ChartAnalyzer(ResourceLoader.TextLoader reader)

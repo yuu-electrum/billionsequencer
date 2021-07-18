@@ -8,7 +8,7 @@ using UnityEngine;
 namespace Database.SQLite
 {
     /// <summary>
-    /// SQLite‚ÌƒNƒGƒŠƒrƒ‹ƒ_
+    /// SQLiteã®ã‚¯ã‚¨ãƒªãƒ“ãƒ«ãƒ€
     /// </summary>
     public class SQLiteQueryBuilder: IQueryBuilder
     {

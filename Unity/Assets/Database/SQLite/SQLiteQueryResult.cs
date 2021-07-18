@@ -7,7 +7,7 @@ using SQLiteUnity;
 namespace Database.SQLite
 {
     /// <summary>
-    /// SQLiteのクエリ結果
+    /// SQLite縺ｮ繧ｯ繧ｨ繝ｪ邨先棡
     /// </summary>
     public class SQLiteQueryResult<T>: IQueryResult<T>
     {
@@ -17,9 +17,9 @@ namespace Database.SQLite
         private string errorMessage;
 
         /// <summary>
-        /// コンストラクタ
+        /// 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ
         /// </summary>
-        /// <param name="queryResultTable">クエリ結果</param>
+        /// <param name="queryResultTable">繧ｯ繧ｨ繝ｪ邨先棡</param>
         public SQLiteQueryResult(SQLiteTable queryResultTable, string executionQuery, string errorMessage = null)
         {
             models = new List<T>();

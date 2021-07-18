@@ -9,7 +9,7 @@ using UnityEngine;
 namespace ChartManagement
 {
     /// <summary>
-    /// 譜面フォーマット定義クラス
+    /// 隴憺擇繝輔か繝ｼ繝槭ャ繝亥ｮ夂ｾｩ繧ｯ繝ｩ繧ｹ
     /// </summary>
     [DataContract]
     public class Chart

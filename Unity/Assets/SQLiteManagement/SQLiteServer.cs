@@ -9,7 +9,7 @@ using Database.SQLite;
 namespace SQLiteManagement
 {
     /// <summary>
-    /// SQLiteƒf[ƒ^ƒx[ƒX‚ğƒT[ƒo“I‚ÉŠÇ—‚·‚éƒNƒ‰ƒX
+    /// SQLiteãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚’ã‚µãƒ¼ãƒçš„ã«ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹
     /// </summary>
     public class SQLiteServer
     {
@@ -21,10 +21,10 @@ namespace SQLiteManagement
         }
 
         /// <summary>
-        /// ƒf[ƒ^ƒx[ƒXƒT[ƒo‚ğ‹N“®‚·‚é
+        /// ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚µãƒ¼ãƒã‚’èµ·å‹•ã™ã‚‹
         /// </summary>
-        /// <param name="databaseInstanceDestination">SQLite‚Ìƒf[ƒ^ƒx[ƒXƒCƒ“ƒXƒ^ƒ“ƒX‚ª‘¶İ‚·‚éƒfƒBƒŒƒNƒgƒŠ</param>
-        /// <param name="databaseName">ƒf[ƒ^ƒx[ƒX–¼</param>
+        /// <param name="databaseInstanceDestination">SQLiteã®ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãŒå­˜åœ¨ã™ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª</param>
+        /// <param name="databaseName">ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å</param>
         public void Start(string databaseInstanceDestination, string databaseName)
         {
             var instanceFilePath = databaseInstanceDestination + "\\" + databaseName;
@@ -36,7 +36,7 @@ namespace SQLiteManagement
                 }
                 else
                 {
-                    // V‹Kì¬‚·‚éAƒ}ƒCƒOƒŒ[ƒVƒ‡ƒ“‚Ì—š—ğƒe[ƒuƒ‹‚¾‚¯ì¬‚·‚é
+                    // æ–°è¦ä½œæˆã™ã‚‹æ™‚ã€ãƒã‚¤ã‚°ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ã®å±¥æ­´ãƒ†ãƒ¼ãƒ–ãƒ«ã ã‘ä½œæˆã™ã‚‹
                     sqLiteInstance = new SQLite(databaseName, SQLiteMigrator.MigrationHistoryCreateQuery, databaseInstanceDestination);
                 }
             }
@@ -50,7 +50,7 @@ namespace SQLiteManagement
         }
 
         /// <summary>
-        /// ƒf[ƒ^ƒx[ƒXƒT[ƒo‚ğƒVƒƒƒbƒgƒ_ƒEƒ“‚·‚é
+        /// ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚µãƒ¼ãƒã‚’ã‚·ãƒ£ãƒƒãƒˆãƒ€ã‚¦ãƒ³ã™ã‚‹
         /// </summary>
         public void Close()
         {
