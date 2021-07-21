@@ -23,7 +23,7 @@ namespace ChartSelectScene
 
         public void OnDestroy()
         {
-            chartSelectAction.Disable();
+            //chartSelectAction.Disable();
         }
     }
 }
