@@ -41,6 +41,19 @@ namespace Database.SQLite.Models
             }
         }
 
+        public string FilePath
+        {
+            get
+            {
+                if(!origin.ContainsKey("file_path"))
+                {
+                    return "";
+                }
+
+                return origin["file_path"].ToString();
+            }
+        }
+
         public string Title
         {
             get

@@ -41,8 +41,10 @@ CREATE TABLE chart_profiles
 (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     chart_hash STRING,
+    file_path STRING,
     title STRING,
     artist STRING,
+    note_count INTEGER NOT NULL,
     lane_count INTEGER NOT NULL,
     level INTEGER NOT NULL,
     min_bpm REAL NOT NULL,
@@ -50,6 +52,16 @@ CREATE TABLE chart_profiles
     sequence_designer STRING,
     FOREIGN KEY(chart_hash) REFERENCES chart_hashes(chart_hash)
 );
+
+CREATE TABLE score_profiles
+(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    guid STRING NOT NULL,
+    chart_hash STRING NOT NULL,
+    score INTEGER NOT NULL,
+    FOREIGN KEY (guid) REFERENCES players(guid),
+    FOREIGN KEY (chart_hash) REFERENCES chart_profiles(chart_hash)
+)
 ";
                 }
             }

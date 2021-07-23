@@ -27,7 +27,7 @@ namespace SQLiteManagement
         /// <param name="databaseName">データベース名</param>
         public void Start(string databaseInstanceDestination, string databaseName)
         {
-            var instanceFilePath = databaseInstanceDestination + "\\" + databaseName;
+            var instanceFilePath = (databaseInstanceDestination + "\\" + databaseName).Replace('\\', '/');
             try
             {
                 if(File.Exists(instanceFilePath))

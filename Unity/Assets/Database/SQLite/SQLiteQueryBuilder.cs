@@ -85,7 +85,7 @@ namespace Database.SQLite
                 return this;
             }
 
-            stringParts.Append(string.Format("UPDATE {0}{1}SET {2} = {3}{4}", table, System.Environment.NewLine, column, value, System.Environment.NewLine));
+            stringParts.Append(string.Format("UPDATE {0}{1}SET {2} = {3}{4}", table, System.Environment.NewLine, column, QuotationConverter.Convert(value), System.Environment.NewLine));
             return this;
         }
 
@@ -121,7 +121,7 @@ namespace Database.SQLite
                 return this;
             }
 
-            stringParts.Append(string.Format("DELETE FROM {0} WHERE {1} {2} {3}", table, column, comparisonOperator, value));
+            stringParts.Append(string.Format("DELETE FROM {0} WHERE {1} {2} {3}", table, column, comparisonOperator, QuotationConverter.Convert(value)));
 
             return this;
         }

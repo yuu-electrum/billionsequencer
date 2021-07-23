@@ -59,11 +59,32 @@ namespace ChartLoadScene
         {
             // 譜面ファイルのSHA256ハッシュを計算する
             var hash = hashCalcurator.Calcurate(new TextLoader(chartFilePath));
+
+            /*
+            var modifiedCharts = server.InstantiateNewQueryBuilder()
+                .Table("chart_profiles")
+                .Select("*")
+                .Where("file_path", "=", chartFilePath)
+                .AndWhere("chart_hash", "<>", hash)
+                .Execute<ChartProfile>();
+            foreach(var modifiedChart in modifiedCharts.Records)
+            {
+                server.InstantiateNewQueryBuilder().Table("chart_hashes").Delete("chart_hash", "=", modifiedChart.ChartHash).Execute();
+                server.InstantiateNewQueryBuilder().Table("chart_profiles").Delete("chart_hash", "=", modifiedChart.ChartHash).Execute();
+            }
+
             var existingHashRecord = server.InstantiateNewQueryBuilder().Table("chart_hashes").Select("*").Where("chart_hash", "=", hash).Execute<ChartHash>();
             if(existingHashRecord.RecordCount == 1)
             {
+                // ファイル名やディレクトリが変わった譜面ファイルを更新する
+                var chartProfile = server.InstantiateNewQueryBuilder().Table("chart_profiles").Select("*").Where("chart_hash", "=", hash).Execute<ChartProfile>().Records.First();
+                if(chartProfile.FilePath != chartFilePath)
+                {
+                    server.InstantiateNewQueryBuilder().Table("chart_profiles").Update("file_path", chartFilePath).Where("chart_hash", "=", hash).Execute();
+                }
                 return RegistrationResult.AlreadyRegistered;
             }
+            */
 
             Chart chart;
             try
@@ -115,8 +136,10 @@ namespace ChartLoadScene
             server.InstantiateNewQueryBuilder().Table("chart_profiles").Insert(
                 null,
                 hash,
+                chartFilePath,
                 title,
                 artist,
+                "0",
                 laneCount.ToString(),
                 level.ToString(),
                 minBpm.ToString(),

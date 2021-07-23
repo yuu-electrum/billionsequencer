@@ -35,6 +35,22 @@ namespace ChartSelectScene
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Enter"",
+                    ""type"": ""Button"",
+                    ""id"": ""06aa1829-42e9-445c-b47b-cd52ec3f8514"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Left"",
+                    ""type"": ""Button"",
+                    ""id"": ""08a6fb03-4857-4a5c-9e11-66ac1cc3403f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -59,6 +75,28 @@ namespace ChartSelectScene
                     ""action"": ""Up"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e4de51f3-0848-44bf-bcc0-195acff9fa5e"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Enter"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7e27855d-c34f-4b88-981c-ef102e063e5f"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Left"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -69,6 +107,8 @@ namespace ChartSelectScene
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Down = m_UI.FindAction("Down", throwIfNotFound: true);
             m_UI_Up = m_UI.FindAction("Up", throwIfNotFound: true);
+            m_UI_Enter = m_UI.FindAction("Enter", throwIfNotFound: true);
+            m_UI_Left = m_UI.FindAction("Left", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -120,12 +160,16 @@ namespace ChartSelectScene
         private IUIActions m_UIActionsCallbackInterface;
         private readonly InputAction m_UI_Down;
         private readonly InputAction m_UI_Up;
+        private readonly InputAction m_UI_Enter;
+        private readonly InputAction m_UI_Left;
         public struct UIActions
         {
             private @ChartSelectAction m_Wrapper;
             public UIActions(@ChartSelectAction wrapper) { m_Wrapper = wrapper; }
             public InputAction @Down => m_Wrapper.m_UI_Down;
             public InputAction @Up => m_Wrapper.m_UI_Up;
+            public InputAction @Enter => m_Wrapper.m_UI_Enter;
+            public InputAction @Left => m_Wrapper.m_UI_Left;
             public InputActionMap Get() { return m_Wrapper.m_UI; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -141,6 +185,12 @@ namespace ChartSelectScene
                     @Up.started -= m_Wrapper.m_UIActionsCallbackInterface.OnUp;
                     @Up.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnUp;
                     @Up.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnUp;
+                    @Enter.started -= m_Wrapper.m_UIActionsCallbackInterface.OnEnter;
+                    @Enter.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnEnter;
+                    @Enter.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnEnter;
+                    @Left.started -= m_Wrapper.m_UIActionsCallbackInterface.OnLeft;
+                    @Left.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnLeft;
+                    @Left.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnLeft;
                 }
                 m_Wrapper.m_UIActionsCallbackInterface = instance;
                 if (instance != null)
@@ -151,6 +201,12 @@ namespace ChartSelectScene
                     @Up.started += instance.OnUp;
                     @Up.performed += instance.OnUp;
                     @Up.canceled += instance.OnUp;
+                    @Enter.started += instance.OnEnter;
+                    @Enter.performed += instance.OnEnter;
+                    @Enter.canceled += instance.OnEnter;
+                    @Left.started += instance.OnLeft;
+                    @Left.performed += instance.OnLeft;
+                    @Left.canceled += instance.OnLeft;
                 }
             }
         }
@@ -159,6 +215,8 @@ namespace ChartSelectScene
         {
             void OnDown(InputAction.CallbackContext context);
             void OnUp(InputAction.CallbackContext context);
+            void OnEnter(InputAction.CallbackContext context);
+            void OnLeft(InputAction.CallbackContext context);
         }
     }
 }

@@ -10,20 +10,23 @@ namespace ChartSelectScene
         [SerializeField]
         private ChartSelectAction chartSelectAction;
 
+        [SerializeField]
+        private ChartListView listView;
+
         public void Start()
         {
-            /*
             chartSelectAction = new ChartSelectAction();
             chartSelectAction.Enable();
 
-            chartSelectAction.UI.Down.performed += context => { listView.MoveCursorToDown(); listView.Layout(); };
-            chartSelectAction.UI.Up.performed += context => { listView.MoveCursorToUp(); listView.Layout(); };
-            */
+            chartSelectAction.UI.Down.performed += context => { listView.MoveSelection(ChartListView.MoveSelectionDirection.Next, 1); };
+            chartSelectAction.UI.Up.performed += context => { listView.MoveSelection(ChartListView.MoveSelectionDirection.Before, 1); };
+            chartSelectAction.UI.Enter.performed += context => { listView.ExecuteSelection(); };
+            chartSelectAction.UI.Left.performed += context => { listView.ShowFolderList(); };
         }
 
         public void OnDestroy()
         {
-            //chartSelectAction.Disable();
+            chartSelectAction.Disable();
         }
     }
 }

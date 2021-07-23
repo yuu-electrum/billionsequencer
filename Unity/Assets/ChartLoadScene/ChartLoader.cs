@@ -28,12 +28,12 @@ namespace ChartLoadScene
         public async void Start()
         {
             var directoryInfo = new DirectoryInfo(Constant.Path.ChartDirectory);
-            var fileEnumrator = directoryInfo.EnumerateFiles();
+            var filePathEnumrator = Directory.EnumerateFiles(Constant.Path.ChartDirectory, "*.json", SearchOption.AllDirectories);
             server = new SQLiteServer();
             server.Start(Constant.Path.WorkingDirectory, Constant.SQLite.DatabaseInstanceFileName);
 
             loadingFinished = false;
-            loadingFinished = await LoadChartsInDirectoryAsync(fileEnumrator, new ChartRegister(new Sha256FileHashCalcurator(), server));
+            loadingFinished = await LoadChartsInDirectoryAsync(filePathEnumrator, new ChartRegister(new Sha256FileHashCalcurator(), server));
 
             lastLoadedFilePath = "";
             currentLoadingFilePath = "";
@@ -61,15 +61,15 @@ namespace ChartLoadScene
         /// <param name="hashCalcurator">ハッシュを計算するクラス</param>
         /// <param name="register">ファイルを登録するクラス</param>
         /// <returns></returns>
-        public async UniTask<bool> LoadChartsInDirectoryAsync(IEnumerable<FileInfo> fileEnumerator, ChartRegister register)
+        public async UniTask<bool> LoadChartsInDirectoryAsync(IEnumerable<string> fileEnumerator, ChartRegister register)
         {
             foreach(var file in fileEnumerator)
             {
-                currentLoadingFilePath = file.FullName;
+                currentLoadingFilePath = file.Replace('\\', '/');
                 var result = register.Register(currentLoadingFilePath);
                 if(result != ChartRegister.RegistrationResult.Done && result == ChartRegister.RegistrationResult.IllegalFormat)
                 {
-                    Debug.LogErrorFormat("Chart in {0} was not registered due to its illegal format.", file.FullName, result.ToString());
+                    Debug.LogErrorFormat("Chart in {0} was not registered due to its illegal format.", file, result.ToString());
                 }
             }
 

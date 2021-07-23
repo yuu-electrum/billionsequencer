@@ -20,7 +20,7 @@ namespace PreloadScene
         public void Start()
         {
             // とりあえず仮で英語の言語設定にしておく
-            var jsonFilePath = string.Format("{0}\\Languages\\en-US.json", Constant.Path.WorkingDirectory).Replace('\\', '/');
+            var jsonFilePath = string.Format("{0}\\Languages\\en-US.json", Constant.Path.WorkingDirectory);
             var jsonReader = new TextLoader(jsonFilePath);
             LocalizeLoader.Instance.Initialize(new LocalizeAnalyzer(jsonReader));
             LocalizeLoader.Instance.Locale = "en-US";

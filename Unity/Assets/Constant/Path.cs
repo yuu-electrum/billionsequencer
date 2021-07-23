@@ -32,7 +32,7 @@ namespace Constant
         {
             get
             {
-                return WorkingDirectory + "//Charts";
+                return WorkingDirectory + "/Charts";
             }
         }
     }

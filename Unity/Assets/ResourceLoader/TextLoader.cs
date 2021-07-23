@@ -20,7 +20,7 @@ namespace ResourceLoader
         /// <param name="path">テキストファイルのパス</param>
         public TextLoader(string path)
         {
-            this.path = path;
+            this.path = path.Replace('\\', '/');
             if(path == null || !File.Exists(path))
             {
                 Debug.LogErrorFormat("A text file {0} is not existing.", path);

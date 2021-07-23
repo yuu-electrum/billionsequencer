@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Database.SQLite.Models;
+using TMPro;
 
 namespace ChartSelectScene
 {
@@ -10,15 +12,62 @@ namespace ChartSelectScene
 	/// </summary>
 	public class ChartListView: MonoBehaviour
 	{
+		private string currentFolderGuid;
+		private bool isInFolder;
+		private bool isFiltered;
+		private int lastSelectedFolderId;
+		private int minSelectionId;
+		private int maxSelectionId;
+		private int currentSelectionId;
 		private Dictionary<string, ChartProfile> chartProfileHashes;
+		private Dictionary<string, ChartProfile> originalChartProfileHashes;
 		private Dictionary<string, ChartListViewFolder> folderGuidTable;
 		private Dictionary<int, string> folderGuidIndexTable;
 
+		[SerializeField]
+		private GameObject listViewItemBaseObject;
+
+		[SerializeField]
+		private RectTransform listViewItemBaseRectTransform;
+
+		[SerializeField]
+		private int maximumListViewItemCount = 34;
+
+		[SerializeField]
+		private Animator listViewItemFadeinAnimator;
+
+		private List<GameObject> listObjects;
+		private Dictionary<int, ListViewItem> listViewItems;
+		private Dictionary<int, RectTransform> rectTransforms;
+
+		private RectTransform selfRectTransform;
+
+		/// <summary>
+		/// フォルダのカーソルの移動方向
+		/// </summary>
+		public enum MoveSelectionDirection
+		{
+			Before,
+			Next
+		}
+
 		public void Awake()
 		{
+			currentFolderGuid = null;
+			isInFolder = false;
 			chartProfileHashes = new Dictionary<string, ChartProfile>();
+			originalChartProfileHashes = new Dictionary<string, ChartProfile>();
 			folderGuidTable = new Dictionary<string, ChartListViewFolder>();
 			folderGuidIndexTable = new Dictionary<int, string>();
+
+			listObjects = new List<GameObject>();
+			listViewItems = new Dictionary<int, ListViewItem>();
+			rectTransforms = new Dictionary<int, RectTransform>();
+			selfRectTransform = GetComponent<RectTransform>();
+			isFiltered = false;
+
+			var loader = new ResourceLoader.PngImageLoader();
+			StartCoroutine(loader.Load(Constant.Path.ChartDirectory + "/Xronier.PNG"));
 		}
 
 		/// <summary>
@@ -34,6 +83,106 @@ namespace ChartSelectScene
 			set
 			{
 				chartProfileHashes = value;
+			}
+		}
+
+		/// <summary>
+		/// レイアウト
+		/// </summary>
+		public IEnumerator Layout(int preselectSelectionId = 0)
+		{
+			var baseObjectHeight = listViewItemBaseRectTransform.rect.height;
+			
+			if(!isInFolder)
+			{
+				var currentItemIndex = 0;
+
+				foreach(var rectTrans in rectTransforms)
+				{
+					Destroy(rectTrans.Value.gameObject);
+				}
+				rectTransforms.Clear();
+				listViewItems.Clear();
+
+				foreach(KeyValuePair<string, ChartListViewFolder> folder in folderGuidTable)
+				{
+					// フォルダに入っていない場合、単にフォルダを列挙する
+					var newGameObject = Instantiate(listViewItemBaseObject);
+					newGameObject.transform.SetParent(this.transform, false);
+					var rectTransform = newGameObject.GetComponent<RectTransform>();
+					rectTransforms.Add(newGameObject.GetInstanceID(), rectTransform);
+
+					var currentPosition = rectTransform.anchoredPosition;
+					currentPosition.y = (currentItemIndex * -1) * baseObjectHeight;
+					rectTransform.anchoredPosition = currentPosition;
+
+					var textMeshPro = newGameObject.GetComponent<TextMeshProUGUI>();
+					textMeshPro.text = folder.Value.Label;
+
+					currentItemIndex++;
+					yield return null;
+				}
+
+				// 選択できる範囲を設定する
+				minSelectionId = 0;
+				maxSelectionId = folderGuidTable.Count - 1;
+				currentSelectionId = minSelectionId;
+
+				MoveSelection(MoveSelectionDirection.Next, preselectSelectionId);
+			}
+			else if(folderGuidTable.ContainsKey(currentFolderGuid))
+			{
+				var currentItemIndex = 0;
+				var folder = folderGuidTable[currentFolderGuid].Charts;
+
+				foreach(var rectTrans in rectTransforms)
+				{
+					Destroy(rectTrans.Value.gameObject);
+				}
+				rectTransforms.Clear();
+				listViewItems.Clear();
+
+				foreach(var chart in folder)
+				{
+					// フォルダに入っている場合、楽曲を列挙する
+					var newGameObject = Instantiate(listViewItemBaseObject);
+					newGameObject.transform.SetParent(this.transform, false);
+					var rectTransform = newGameObject.GetComponent<RectTransform>();
+					rectTransforms.Add(newGameObject.GetInstanceID(), rectTransform);
+
+					var currentPosition = rectTransform.anchoredPosition;
+					currentPosition.y = (currentItemIndex * -1) * baseObjectHeight;
+					rectTransform.anchoredPosition = currentPosition;
+
+					var textMeshPro = newGameObject.GetComponent<TextMeshProUGUI>();
+					textMeshPro.text = BoundChartProfileHashes[chart].Title;
+
+					currentItemIndex++;
+					yield return null;
+				}
+
+				// 選択できる範囲を設定する
+				minSelectionId = 0;
+				maxSelectionId = folder.Count - 1;
+				currentSelectionId = minSelectionId;
+			}
+
+			foreach(var rectTransform in rectTransforms)
+			{
+				// 画面に表示されない項目は非表示にする
+				var positionY = rectTransform.Value.anchoredPosition.y;
+
+				var visibleBoundary = selfRectTransform.rect.height / 2.0f;
+				var isVisible = positionY < visibleBoundary && positionY > visibleBoundary * -1;
+
+				var gameObjectInstanceId = rectTransform.Value.gameObject.GetInstanceID();
+				listViewItems.Add(gameObjectInstanceId, rectTransform.Value.gameObject.GetComponent<ListViewItem>());
+				
+				if(!isVisible)
+				{
+					listViewItems[gameObjectInstanceId].FinishAnimator();
+					rectTransform.Value.gameObject.SetActive(false);
+				}
 			}
 		}
 
@@ -66,7 +215,7 @@ namespace ChartSelectScene
 		/// <summary>
 		/// GUIDからフォルダを特定する
 		/// </summary>
-		/// <param name="guid"></param>
+		/// <param name="guid">GUID</param>
 		/// <returns></returns>
 		public ChartListViewFolder GetFolder(string guid)
 		{
@@ -76,6 +225,90 @@ namespace ChartSelectScene
 			}
 
 			return folderGuidTable.ContainsKey(guid) ? folderGuidTable[guid] : null;
+		}
+
+		/// <summary>
+		/// 選択しているカーソルを移動する
+		/// </summary>
+		/// <param name="moveDirection">移動方向</param>
+		/// <param name="moveCount">移動量</param>
+		/// <returns></returns>
+		public void MoveSelection(MoveSelectionDirection moveDirection, int moveCount)
+		{
+			var direction = moveDirection == MoveSelectionDirection.Next ? 1 : -1;
+			var nextSelection = currentSelectionId + moveCount * direction;
+
+			if(nextSelection > maxSelectionId || nextSelection < 0 || rectTransforms.Count == 0)
+			{
+				return;
+			}
+			currentSelectionId = nextSelection;
+
+			var firstSelection = rectTransforms.First();
+
+			var height = firstSelection.Value.rect.height;
+			var positionY = currentSelectionId * height;
+
+			foreach(var rectTransform in rectTransforms)
+			{
+				var position = rectTransform.Value.anchoredPosition;
+				position.y = positionY;
+
+				var visibleBoundary = selfRectTransform.rect.height / 2.0f;
+				var isVisible = positionY < visibleBoundary && positionY > visibleBoundary * -1;
+
+				if(listViewItems.ContainsKey(rectTransform.Value.gameObject.GetInstanceID()))
+				{
+					listViewItems[rectTransform.Value.gameObject.GetInstanceID()].FinishAnimator();
+				}
+				rectTransform.Value.gameObject.SetActive(isVisible);
+
+				rectTransform.Value.anchoredPosition = position;
+
+				positionY -= height;
+			}
+		}
+
+		/// <summary>
+		/// 選択しているカーソルを移動する
+		/// </summary>
+		public void ExecuteSelection()
+		{
+			if(currentSelectionId >= folderGuidTable.Count && currentSelectionId < 0)
+			{
+				return;
+			}
+
+			if(!isInFolder)
+			{
+				var selectedFolderGuid = folderGuidIndexTable[currentSelectionId];
+
+				isInFolder = true;
+				currentFolderGuid = selectedFolderGuid;
+				lastSelectedFolderId = currentSelectionId;
+
+				StartCoroutine(Layout());
+			}
+			else
+			{
+				// 曲を確定する
+			}
+		}
+
+		/// <summary>
+		/// フォルダリストを表示する
+		/// </summary>
+		public void ShowFolderList()
+		{
+			if(!isInFolder)
+			{
+				return;
+			}
+
+			isInFolder = false;
+			currentFolderGuid = "";
+
+			StartCoroutine(Layout(lastSelectedFolderId));
 		}
 	}
 }
