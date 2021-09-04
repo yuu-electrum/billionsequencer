@@ -70,5 +70,14 @@ namespace ChartSelectScene
 		{
 			chartHashes.Add(hash);
 		}
+
+		/// <summary>
+		/// 譜面を取得する
+		/// </summary>
+		/// <param name="index">譜面のインデックス</param>
+		public string GetChartHash(int index)
+		{
+			return chartHashes[index] ?? "";
+		}
 	}
 }

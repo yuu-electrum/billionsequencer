@@ -1,12 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using System.IO;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using SQLiteManagement;
 using ChartManagement;
+using Database.SQLite.Models;
 using ResourceLoader;
 using TMPro;
 
@@ -33,7 +35,7 @@ namespace ChartLoadScene
             server.Start(Constant.Path.WorkingDirectory, Constant.SQLite.DatabaseInstanceFileName);
 
             loadingFinished = false;
-            loadingFinished = await LoadChartsInDirectoryAsync(filePathEnumrator, new ChartRegister(new Sha256FileHashCalcurator(), server));
+            loadingFinished = await LoadChartsInDirectoryAsync(new Sha256FileHashCalcurator(), filePathEnumrator, new ChartRegister(server));
 
             lastLoadedFilePath = "";
             currentLoadingFilePath = "";
@@ -57,19 +59,67 @@ namespace ChartLoadScene
         /// <summary>
         /// 譜面を読み込む
         /// </summary>
-        /// <param name="fileEnumerator">ファイルを列挙するEnumerator</param>
         /// <param name="hashCalcurator">ハッシュを計算するクラス</param>
+        /// <param name="fileEnumerator">ファイルを列挙するEnumerator</param>
         /// <param name="register">ファイルを登録するクラス</param>
         /// <returns></returns>
-        public async UniTask<bool> LoadChartsInDirectoryAsync(IEnumerable<string> fileEnumerator, ChartRegister register)
+        public async UniTask<bool> LoadChartsInDirectoryAsync(IFileHashCalcurator hashCalcurator, IEnumerable<string> fileEnumerator, ChartRegister register)
         {
-            foreach(var file in fileEnumerator)
+            var registeredChartProfiles = server.InstantiateNewQueryBuilder()
+                .Table("chart_profiles")
+                .Select("*")
+                .Execute<ChartProfile>()
+                .Records;
+            var chartAnalyzers = new List<ChartAnalyzer>();
+
+            foreach(var registeredChartProfile in registeredChartProfiles)
             {
-                currentLoadingFilePath = file.Replace('\\', '/');
-                var result = register.Register(currentLoadingFilePath);
-                if(result != ChartRegister.RegistrationResult.Done && result == ChartRegister.RegistrationResult.IllegalFormat)
+                var analyzer = new ChartAnalyzer(hashCalcurator, new TextLoader(registeredChartProfile.FilePath));
+
+                if(!File.Exists(analyzer.Path))
                 {
-                    Debug.LogErrorFormat("Chart in {0} was not registered due to its illegal format.", file, result.ToString());
+                    // そのファイルパスが存在しない場合、登録されている譜面リストから削除する
+                    server.InstantiateNewQueryBuilder().Table("chart_profiles").Delete("id", "=", registeredChartProfile.Id.ToString()).Execute();
+                    continue;
+                }
+
+                chartAnalyzers.Add(analyzer);
+            }
+
+            foreach(var filePath in fileEnumerator)
+            {
+                var separatorConvertedFilePath = filePath.Replace('\\', '/');
+                var textLoader = new TextLoader(separatorConvertedFilePath);
+                var hash = hashCalcurator.Calcurate(textLoader);
+
+                var identicalChartProfiles = server.InstantiateNewQueryBuilder()
+                    .Table("chart_profiles")
+                    .Select("*")
+                    .Where("file_path", "=", separatorConvertedFilePath)
+                    .AndWhere("chart_hash", "=", hash)
+                    .Execute<ChartProfile>()
+                    .Records;
+
+                var modifiedChartProfile = server.InstantiateNewQueryBuilder()
+                    .Table("chart_profiles")
+                    .Select("*")
+                    .Where("file_path", "=", separatorConvertedFilePath)
+                    .AndWhere("chart_hash", "<>", hash)
+                    .Execute<ChartProfile>()
+                    .Records;
+
+                foreach(var chartProfile in modifiedChartProfile)
+                {
+                    server.InstantiateNewQueryBuilder()
+                        .Table("chart_profiles")
+                        .Delete("id", "=", chartProfile.Id.ToString())
+                        .Execute();
+                }
+
+                if(identicalChartProfiles.Count == 0)
+                {
+                    // 登録されていない譜面の場合、新規登録を行う
+                    register.Register(new ChartAnalyzer(hashCalcurator, textLoader));
                 }
             }
 

@@ -15,7 +15,6 @@ namespace ChartLoadScene
     /// </summary>
     public class ChartRegister
     {
-        private Sha256FileHashCalcurator hashCalcurator;
         private SQLiteServer server;
 
         /// <summary>
@@ -49,53 +48,18 @@ namespace ChartLoadScene
         /// </summary>
         /// <param name="hashCalcurator">ハッシュを計算するクラス</param>
         /// <param name="server">SQLiteサーバ</param>
-        public ChartRegister(Sha256FileHashCalcurator hashCalcurator, SQLiteServer server)
+        public ChartRegister(SQLiteServer server)
         {
-            this.hashCalcurator = hashCalcurator;
             this.server = server;
         }
 
-        public RegistrationResult Register(string chartFilePath)
+        /// <summary>
+        /// 譜面を登録する
+        /// </summary>
+        /// <param name="chartAnalyzer">譜面をパースするクラス</param>
+        public RegistrationResult Register(ChartAnalyzer chartAnalyzer)
         {
-            // 譜面ファイルのSHA256ハッシュを計算する
-            var hash = hashCalcurator.Calcurate(new TextLoader(chartFilePath));
-
-            /*
-            var modifiedCharts = server.InstantiateNewQueryBuilder()
-                .Table("chart_profiles")
-                .Select("*")
-                .Where("file_path", "=", chartFilePath)
-                .AndWhere("chart_hash", "<>", hash)
-                .Execute<ChartProfile>();
-            foreach(var modifiedChart in modifiedCharts.Records)
-            {
-                server.InstantiateNewQueryBuilder().Table("chart_hashes").Delete("chart_hash", "=", modifiedChart.ChartHash).Execute();
-                server.InstantiateNewQueryBuilder().Table("chart_profiles").Delete("chart_hash", "=", modifiedChart.ChartHash).Execute();
-            }
-
-            var existingHashRecord = server.InstantiateNewQueryBuilder().Table("chart_hashes").Select("*").Where("chart_hash", "=", hash).Execute<ChartHash>();
-            if(existingHashRecord.RecordCount == 1)
-            {
-                // ファイル名やディレクトリが変わった譜面ファイルを更新する
-                var chartProfile = server.InstantiateNewQueryBuilder().Table("chart_profiles").Select("*").Where("chart_hash", "=", hash).Execute<ChartProfile>().Records.First();
-                if(chartProfile.FilePath != chartFilePath)
-                {
-                    server.InstantiateNewQueryBuilder().Table("chart_profiles").Update("file_path", chartFilePath).Where("chart_hash", "=", hash).Execute();
-                }
-                return RegistrationResult.AlreadyRegistered;
-            }
-            */
-
-            Chart chart;
-            try
-            {
-                chart = new ChartAnalyzer(new TextLoader(chartFilePath)).Analyze();
-            }
-            catch(Exception e)
-            {
-                Debug.LogWarningFormat("Unexpected error occurred when loading a chart {0}. Detail: {1}", chartFilePath, e.ToString());
-                return RegistrationResult.IllegalFormat;
-            }
+            var chart = chartAnalyzer.Analyze();
 
             var title     = chart.GlobalConfigurations.Title;
             var artist    = chart.GlobalConfigurations.Artist;
@@ -131,12 +95,21 @@ namespace ChartLoadScene
                 return RegistrationResult.IllegalFormat;
             }
 
-            // 登録されていないなら譜面を登録する
-            server.InstantiateNewQueryBuilder().Table("chart_hashes").Insert(null, hash).Execute();
+            var identicalChartHashes = server.InstantiateNewQueryBuilder()
+                .Table("chart_hashes")
+                .Select("*")
+                .Where("chart_hash", "=", chartAnalyzer.Hash)
+                .Execute<ChartProfile>();
+
+            if(identicalChartHashes.RecordCount == 0)
+            {
+                server.InstantiateNewQueryBuilder().Table("chart_hashes").Insert(null, chartAnalyzer.Hash).Execute();
+            }
+
             server.InstantiateNewQueryBuilder().Table("chart_profiles").Insert(
                 null,
-                hash,
-                chartFilePath,
+                chartAnalyzer.Hash,
+                chartAnalyzer.Path,
                 title,
                 artist,
                 "0",

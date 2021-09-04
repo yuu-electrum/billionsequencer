@@ -38,13 +38,13 @@ namespace ResourceLoader
         /// <returns>テキストデータ</returns>
         public string ReadAll()
         {
-            var streamReader = new StreamReader(path);
-            var content = "";
-
             if(!fileExists)
             {
                 return "";
             }
+
+            var streamReader = new StreamReader(path);
+            var content = "";
 
             try
             {
@@ -58,6 +58,17 @@ namespace ResourceLoader
             }
 
             return content;
+        }
+
+        /// <summary>
+        /// ファイルパスを取得する
+        /// </summary>
+        public string Path
+        {
+            get
+            {
+                return path;
+            }
         }
     }
 }

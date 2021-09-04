@@ -1,8 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using UnityEngine;
+using UnityEngine.UI;
 using Database.SQLite.Models;
+using ResourceLoader;
+using ChartManagement;
 using TMPro;
 
 namespace ChartSelectScene
@@ -29,6 +33,9 @@ namespace ChartSelectScene
 
 		[SerializeField]
 		private RectTransform listViewItemBaseRectTransform;
+
+		[SerializeField]
+		private RawImage artwork;
 
 		[SerializeField]
 		private int maximumListViewItemCount = 34;
@@ -65,9 +72,6 @@ namespace ChartSelectScene
 			rectTransforms = new Dictionary<int, RectTransform>();
 			selfRectTransform = GetComponent<RectTransform>();
 			isFiltered = false;
-
-			var loader = new ResourceLoader.PngImageLoader();
-			StartCoroutine(loader.Load(Constant.Path.ChartDirectory + "/Xronier.PNG"));
 		}
 
 		/// <summary>
@@ -165,6 +169,9 @@ namespace ChartSelectScene
 				minSelectionId = 0;
 				maxSelectionId = folder.Count - 1;
 				currentSelectionId = minSelectionId;
+
+				// アートワークを読み込む
+				StartCoroutine(LoadArtwork(new PngImageLoader(), folderGuidTable[currentFolderGuid].GetChartHash(currentSelectionId)));
 			}
 
 			foreach(var rectTransform in rectTransforms)
@@ -244,11 +251,15 @@ namespace ChartSelectScene
 			}
 			currentSelectionId = nextSelection;
 
+			if(isInFolder)
+			{
+				StartCoroutine(LoadArtwork(new PngImageLoader(), folderGuidTable[currentFolderGuid].GetChartHash(currentSelectionId)));
+			}
+
 			var firstSelection = rectTransforms.First();
 
 			var height = firstSelection.Value.rect.height;
 			var positionY = currentSelectionId * height;
-
 			foreach(var rectTransform in rectTransforms)
 			{
 				var position = rectTransform.Value.anchoredPosition;
@@ -309,6 +320,35 @@ namespace ChartSelectScene
 			currentFolderGuid = "";
 
 			StartCoroutine(Layout(lastSelectedFolderId));
+		}
+
+		/// <summary>
+		/// ハッシュ値に紐づくアートワークを読み込む
+		/// </summary>
+		public IEnumerator LoadArtwork(IDynamicImageLoader imageLoader, string hash)
+		{
+			var chart = BoundChartProfileHashes[hash];
+
+			var chartDirectory = Path.GetDirectoryName(chart.FilePath);
+
+			var analyzer = new ChartAnalyzer(new Sha256FileHashCalcurator(), new TextLoader(chart.FilePath)).Analyze();
+			var artworkFileName = analyzer.GlobalConfigurations.Artwork;
+			var artworkFilePath = chartDirectory + "/" + artworkFileName;
+
+			if(!File.Exists(artworkFilePath))
+			{
+				artwork.gameObject.SetActive(false);
+				yield break;
+			}
+
+			StartCoroutine(imageLoader.Load(artworkFilePath));
+
+			yield return new WaitUntil(() => imageLoader.IsLoaded);
+
+			artwork.gameObject.SetActive(true);
+			artwork.texture = imageLoader.Image;
+
+			yield break;
 		}
 	}
 }
