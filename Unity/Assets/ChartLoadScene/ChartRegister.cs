@@ -103,11 +103,10 @@ namespace ChartLoadScene
 
             if(identicalChartHashes.RecordCount == 0)
             {
-                server.InstantiateNewQueryBuilder().Table("chart_hashes").Insert(null, chartAnalyzer.Hash).Execute();
+                server.InstantiateNewQueryBuilder().Table("chart_hashes").Insert(chartAnalyzer.Hash).Execute();
             }
 
             server.InstantiateNewQueryBuilder().Table("chart_profiles").Insert(
-                null,
                 chartAnalyzer.Hash,
                 chartAnalyzer.Path,
                 title,

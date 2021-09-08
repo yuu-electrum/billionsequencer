@@ -79,7 +79,7 @@ namespace ChartLoadScene
                 if(!File.Exists(analyzer.Path))
                 {
                     // そのファイルパスが存在しない場合、登録されている譜面リストから削除する
-                    server.InstantiateNewQueryBuilder().Table("chart_profiles").Delete("id", "=", registeredChartProfile.Id.ToString()).Execute();
+                    server.InstantiateNewQueryBuilder().Table("chart_profiles").Delete("chart_hash", "=", registeredChartProfile.ChartHash).Execute();
                     continue;
                 }
 
@@ -112,7 +112,7 @@ namespace ChartLoadScene
                 {
                     server.InstantiateNewQueryBuilder()
                         .Table("chart_profiles")
-                        .Delete("id", "=", chartProfile.Id.ToString())
+                        .Delete("chart_hash", "=", chartProfile.ChartHash)
                         .Execute();
                 }
 
@@ -121,6 +121,8 @@ namespace ChartLoadScene
                     // 登録されていない譜面の場合、新規登録を行う
                     register.Register(new ChartAnalyzer(hashCalcurator, textLoader));
                 }
+
+                
             }
 
             return true;

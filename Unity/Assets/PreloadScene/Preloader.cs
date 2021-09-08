@@ -34,7 +34,7 @@ namespace PreloadScene
             if(players.RecordCount == 0)
             {
                 // 最初の起動時にはプレイヤー登録をする
-                sqlserver.InstantiateNewQueryBuilder().Table("players").Insert(null, Guid.NewGuid().ToString(), Constant.SQLite.DefaultPlayerName).Execute();
+                sqlserver.InstantiateNewQueryBuilder().Table("players").Insert(Guid.NewGuid().ToString(), Constant.SQLite.DefaultPlayerName).Execute();
             }
 
             sqlserver.Close();

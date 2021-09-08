@@ -24,7 +24,7 @@ namespace ChartSelectScene
 		private int maxSelectionId;
 		private int currentSelectionId;
 		private Dictionary<string, ChartProfile> chartProfileHashes;
-		private Dictionary<string, ChartProfile> originalChartProfileHashes;
+		private Dictionary<string, Chart> charts;
 		private Dictionary<string, ChartListViewFolder> folderGuidTable;
 		private Dictionary<int, string> folderGuidIndexTable;
 
@@ -63,7 +63,7 @@ namespace ChartSelectScene
 			currentFolderGuid = null;
 			isInFolder = false;
 			chartProfileHashes = new Dictionary<string, ChartProfile>();
-			originalChartProfileHashes = new Dictionary<string, ChartProfile>();
+			charts = new Dictionary<string, Chart>();
 			folderGuidTable = new Dictionary<string, ChartListViewFolder>();
 			folderGuidIndexTable = new Dictionary<int, string>();
 
@@ -328,11 +328,23 @@ namespace ChartSelectScene
 		public IEnumerator LoadArtwork(IDynamicImageLoader imageLoader, string hash)
 		{
 			var chart = BoundChartProfileHashes[hash];
-
 			var chartDirectory = Path.GetDirectoryName(chart.FilePath);
 
-			var analyzer = new ChartAnalyzer(new Sha256FileHashCalcurator(), new TextLoader(chart.FilePath)).Analyze();
-			var artworkFileName = analyzer.GlobalConfigurations.Artwork;
+			Chart cursorChart = null;
+
+			if(charts.ContainsKey(hash))
+			{
+				cursorChart = charts[hash];
+			}
+			else
+			{
+				// 譜面情報をキャッシュしておく
+				var newAnalyzer = new ChartAnalyzer(new Sha256FileHashCalcurator(), new TextLoader(chart.FilePath));
+				charts.Add(hash, newAnalyzer.Analyze());
+				cursorChart = charts[hash];	
+			}
+
+			var artworkFileName = cursorChart.GlobalConfigurations.Artwork;
 			var artworkFilePath = chartDirectory + "/" + artworkFileName;
 
 			if(!File.Exists(artworkFilePath))

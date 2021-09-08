@@ -26,20 +26,20 @@ namespace SQLiteManagement
                     return $@"
 CREATE TABLE chart_hashes
 (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    chart_hash STRING UNIQUE NOT NULL
+    chart_hash STRING,
+    PRIMARY KEY (chart_hash),
+    UNIQUE (chart_hash)
 );
 
 CREATE TABLE players
 (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    guid STRING NOT NULL,
-    player_name STRING DEFAULT '{Constant.SQLite.DefaultPlayerName}'
+    guid STRING,
+    player_name STRING DEFAULT '{Constant.SQLite.DefaultPlayerName}',
+    PRIMARY KEY (guid)
 );
 
 CREATE TABLE chart_profiles
 (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
     chart_hash STRING,
     file_path STRING,
     title STRING,
@@ -55,12 +55,13 @@ CREATE TABLE chart_profiles
 
 CREATE TABLE score_profiles
 (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
     guid STRING NOT NULL,
     chart_hash STRING NOT NULL,
+    play_result TEXT COLLATE BINARY NOT NULL DEFAULT 'never_played',
     score INTEGER NOT NULL,
     FOREIGN KEY (guid) REFERENCES players(guid),
-    FOREIGN KEY (chart_hash) REFERENCES chart_profiles(chart_hash)
+    FOREIGN KEY (chart_hash) REFERENCES chart_profiles(chart_hash),
+    CHECK(play_result = 'never_played' OR play_result = 'failed' OR play_result = 'succeeded_over_reference' OR play_result = 'succeeded_life_retaining')
 )
 ";
                 }
