@@ -90,6 +90,14 @@ namespace ChartSelectScene
 			}
 			listView.BoundChartProfileHashes = hashTable;
 
+			var scores = sqlserver.InstantiateNewQueryBuilder().Table("score_profiles").Select("*").Execute<ScoreProfile>().Records;
+			var scoreTable = new Dictionary<string, ScoreProfile>();
+			foreach(var score in scores)
+			{
+				scoreTable.Add(score.ChartHash, score);
+			}
+			listView.BoundScoreProfileHashes = scoreTable;
+
 			var isArranged = await ArrangeListView(listView);
 			await UniTask.WaitUntil(() => isArranged);
 

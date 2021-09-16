@@ -24,6 +24,7 @@ namespace ChartSelectScene
 		private int maxSelectionId;
 		private int currentSelectionId;
 		private Dictionary<string, ChartProfile> chartProfileHashes;
+		private Dictionary<string, ScoreProfile> chartScoreProfiles;
 		private Dictionary<string, Chart> charts;
 		private Dictionary<string, ChartListViewFolder> folderGuidTable;
 		private Dictionary<int, string> folderGuidIndexTable;
@@ -38,10 +39,25 @@ namespace ChartSelectScene
 		private RawImage artwork;
 
 		[SerializeField]
+		private TextMeshProUGUI score;
+
+		[SerializeField]
+		private TextMeshProUGUI playResult;
+
+		[SerializeField]
+		private TextMeshProUGUI artist;
+
+		[SerializeField]
+		private TextMeshProUGUI sequenceDesigner;
+
+		[SerializeField]
 		private int maximumListViewItemCount = 34;
 
 		[SerializeField]
 		private Animator listViewItemFadeinAnimator;
+
+		[SerializeField]
+		private Animator[] animators;
 
 		private List<GameObject> listObjects;
 		private Dictionary<int, ListViewItem> listViewItems;
@@ -91,6 +107,22 @@ namespace ChartSelectScene
 		}
 
 		/// <summary>
+		/// リストビューに紐づいたスコアデータのハッシュテーブル
+		/// </summary>
+		public Dictionary<string, ScoreProfile> BoundScoreProfileHashes
+		{
+			get
+			{
+				return chartScoreProfiles;
+			}
+
+			set
+			{
+				chartScoreProfiles = value;
+			}
+		}
+
+		/// <summary>
 		/// レイアウト
 		/// </summary>
 		public IEnumerator Layout(int preselectSelectionId = 0)
@@ -132,6 +164,10 @@ namespace ChartSelectScene
 				maxSelectionId = folderGuidTable.Count - 1;
 				currentSelectionId = minSelectionId;
 
+				score.gameObject.SetActive(false);
+				playResult.gameObject.SetActive(false);
+				artist.gameObject.SetActive(false);
+				sequenceDesigner.gameObject.SetActive(false);
 				MoveSelection(MoveSelectionDirection.Next, preselectSelectionId);
 			}
 			else if(folderGuidTable.ContainsKey(currentFolderGuid))
@@ -170,8 +206,7 @@ namespace ChartSelectScene
 				maxSelectionId = folder.Count - 1;
 				currentSelectionId = minSelectionId;
 
-				// アートワークを読み込む
-				StartCoroutine(LoadArtwork(new PngImageLoader(), folderGuidTable[currentFolderGuid].GetChartHash(currentSelectionId)));
+				StartCoroutine(ShowChartDetails());
 			}
 
 			foreach(var rectTransform in rectTransforms)
@@ -253,7 +288,7 @@ namespace ChartSelectScene
 
 			if(isInFolder)
 			{
-				StartCoroutine(LoadArtwork(new PngImageLoader(), folderGuidTable[currentFolderGuid].GetChartHash(currentSelectionId)));
+				StartCoroutine(ShowChartDetails());
 			}
 
 			var firstSelection = rectTransforms.First();
@@ -320,6 +355,7 @@ namespace ChartSelectScene
 			currentFolderGuid = "";
 
 			StartCoroutine(Layout(lastSelectedFolderId));
+			artwork.gameObject.SetActive(false);
 		}
 
 		/// <summary>
@@ -360,6 +396,53 @@ namespace ChartSelectScene
 			artwork.gameObject.SetActive(true);
 			artwork.texture = imageLoader.Image;
 
+			yield break;
+		}
+
+		/// <summary>
+		/// 譜面の情報を表示する
+		/// </summary>
+		private IEnumerator ShowChartDetails()
+		{
+			StartCoroutine(LoadArtwork(new PngImageLoader(), folderGuidTable[currentFolderGuid].GetChartHash(currentSelectionId)));
+				
+			var hash = folderGuidTable[currentFolderGuid].GetChartHash(currentSelectionId);
+
+			// アートワークを読み込む
+			StartCoroutine(LoadArtwork(new PngImageLoader(), hash));
+				
+			// Animatorを強制的に再実行させる
+			score.gameObject.SetActive(true);
+			playResult.gameObject.SetActive(true);
+			artist.gameObject.SetActive(true);
+			sequenceDesigner.gameObject.SetActive(true);
+
+			foreach(var animator in animators)
+			{
+				animator.Rebind();
+				animator.Update(0.0f);
+			}
+
+			// 譜面の情報を表示する
+			score.text = Localization.LocalizeLoader.Instance.Format("Score", chartScoreProfiles[hash].Score.ToString());
+			var chartPlayResult = Localization.LocalizeLoader.Instance.Find("PlayResultNeverPlayed");
+			switch(chartScoreProfiles[hash].PlayResult)
+			{
+				case "failed":
+					chartPlayResult = Localization.LocalizeLoader.Instance.Find("PlayResultFailed");
+					break;
+
+				case "succeeded_over_reference":
+					chartPlayResult = Localization.LocalizeLoader.Instance.Find("PlayResultOverReference");
+					break;
+
+				case "succeeded_life_retaining":
+					chartPlayResult = Localization.LocalizeLoader.Instance.Find("PlayResultLifeRetaining");
+					break;
+			}
+			playResult.text = chartPlayResult;
+			artist.text = chartProfileHashes[hash].Artist;
+			sequenceDesigner.text = Localization.LocalizeLoader.Instance.Format("SequenceDesigner", chartProfileHashes[hash].SequenceDesigner);
 			yield break;
 		}
 	}

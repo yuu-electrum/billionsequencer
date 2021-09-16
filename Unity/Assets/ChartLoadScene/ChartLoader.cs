@@ -122,9 +122,28 @@ namespace ChartLoadScene
                     register.Register(new ChartAnalyzer(hashCalcurator, textLoader));
                 }
 
-                
-            }
+                var scoreProfile = server.InstantiateNewQueryBuilder()
+                    .Table("score_profiles")
+                    .Select("*")
+                    .Where("chart_hash", "=", hash)
+                    .Execute<ScoreProfile>();
 
+                // ユーザは今のところ常に1人しかいない。
+                // PlayerPrefsとかに保存しておくべきだろうか
+                var player = server.InstantiateNewQueryBuilder()
+                    .Table("players")
+                    .Select("*")
+                    .Execute<Player>();
+
+                if(scoreProfile.RecordCount == 0)
+                {
+                    // 登録されていない場合は、スコアデータを用意する
+                    server.InstantiateNewQueryBuilder()
+                        .Table("score_profiles")
+                        .Insert(player.Records.First().Guid, hash, "never_played", "0")
+                        .Execute();
+                }
+            }
             return true;
         }
     }

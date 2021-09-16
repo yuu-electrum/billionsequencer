@@ -60,7 +60,7 @@ CREATE TABLE score_profiles
     play_result TEXT COLLATE BINARY NOT NULL DEFAULT 'never_played',
     score INTEGER NOT NULL,
     FOREIGN KEY (guid) REFERENCES players(guid),
-    FOREIGN KEY (chart_hash) REFERENCES chart_profiles(chart_hash),
+    FOREIGN KEY (chart_hash) REFERENCES chart_hashes(chart_hash),
     CHECK(play_result = 'never_played' OR play_result = 'failed' OR play_result = 'succeeded_over_reference' OR play_result = 'succeeded_life_retaining')
 )
 ";

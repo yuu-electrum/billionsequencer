@@ -43,7 +43,7 @@ namespace ResourceLoader
                 return "";
             }
 
-            var streamReader = new StreamReader(path);
+            var streamReader = new StreamReader(path, System.Text.Encoding.GetEncoding("UTF-8"));
             var content = "";
 
             try
