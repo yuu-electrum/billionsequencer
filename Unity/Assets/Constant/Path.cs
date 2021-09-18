@@ -20,7 +20,7 @@ namespace Constant
 #if UNITY_EDITOR
                 return Directory.GetCurrentDirectory();
 #else
-                return System.AppDomain.CurrentDomain.BaseDirectory.TrimEnd("\\");
+                return System.AppDomain.CurrentDomain.BaseDirectory.TrimEnd('\\');
 #endif
             }
         }
