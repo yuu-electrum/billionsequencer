@@ -51,6 +51,14 @@ namespace ChartSelectScene
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Tab"",
+                    ""type"": ""Button"",
+                    ""id"": ""e4b10b14-4d0c-499b-9d92-8354f684307e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -97,6 +105,17 @@ namespace ChartSelectScene
                     ""action"": ""Left"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3928ab9d-3c1a-43b0-9a79-8d3505862dcc"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tab"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -109,6 +128,7 @@ namespace ChartSelectScene
             m_UI_Up = m_UI.FindAction("Up", throwIfNotFound: true);
             m_UI_Enter = m_UI.FindAction("Enter", throwIfNotFound: true);
             m_UI_Left = m_UI.FindAction("Left", throwIfNotFound: true);
+            m_UI_Tab = m_UI.FindAction("Tab", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -162,6 +182,7 @@ namespace ChartSelectScene
         private readonly InputAction m_UI_Up;
         private readonly InputAction m_UI_Enter;
         private readonly InputAction m_UI_Left;
+        private readonly InputAction m_UI_Tab;
         public struct UIActions
         {
             private @ChartSelectAction m_Wrapper;
@@ -170,6 +191,7 @@ namespace ChartSelectScene
             public InputAction @Up => m_Wrapper.m_UI_Up;
             public InputAction @Enter => m_Wrapper.m_UI_Enter;
             public InputAction @Left => m_Wrapper.m_UI_Left;
+            public InputAction @Tab => m_Wrapper.m_UI_Tab;
             public InputActionMap Get() { return m_Wrapper.m_UI; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -191,6 +213,9 @@ namespace ChartSelectScene
                     @Left.started -= m_Wrapper.m_UIActionsCallbackInterface.OnLeft;
                     @Left.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnLeft;
                     @Left.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnLeft;
+                    @Tab.started -= m_Wrapper.m_UIActionsCallbackInterface.OnTab;
+                    @Tab.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnTab;
+                    @Tab.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnTab;
                 }
                 m_Wrapper.m_UIActionsCallbackInterface = instance;
                 if (instance != null)
@@ -207,6 +232,9 @@ namespace ChartSelectScene
                     @Left.started += instance.OnLeft;
                     @Left.performed += instance.OnLeft;
                     @Left.canceled += instance.OnLeft;
+                    @Tab.started += instance.OnTab;
+                    @Tab.performed += instance.OnTab;
+                    @Tab.canceled += instance.OnTab;
                 }
             }
         }
@@ -217,6 +245,7 @@ namespace ChartSelectScene
             void OnUp(InputAction.CallbackContext context);
             void OnEnter(InputAction.CallbackContext context);
             void OnLeft(InputAction.CallbackContext context);
+            void OnTab(InputAction.CallbackContext context);
         }
     }
 }

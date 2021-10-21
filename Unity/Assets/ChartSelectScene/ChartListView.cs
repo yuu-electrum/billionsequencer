@@ -59,6 +59,9 @@ namespace ChartSelectScene
 		[SerializeField]
 		private Animator[] animators;
 
+		[SerializeField]
+		private GameObject[] inactiveHiddenObjects;
+
 		private List<GameObject> listObjects;
 		private Dictionary<int, ListViewItem> listViewItems;
 		private Dictionary<int, RectTransform> rectTransforms;
@@ -397,6 +400,28 @@ namespace ChartSelectScene
 			artwork.texture = imageLoader.Image;
 
 			yield break;
+		}
+
+		/// <summary>
+		/// 非アクティブ時に隠すオブジェクトを隠す
+		/// </summary>
+		public void HideInactiveHiddenObjects()
+		{
+			foreach(var obj in inactiveHiddenObjects)
+			{
+				obj.SetActive(false);
+			}
+		}
+
+		/// <summary>
+		/// 非アクティブ時に隠すオブジェクトを表示する
+		/// </summary>
+		public void ShowInactiveHiddenObjects()
+		{
+			foreach(var obj in inactiveHiddenObjects)
+			{
+				obj.SetActive(isInFolder);
+			}
 		}
 
 		/// <summary>
