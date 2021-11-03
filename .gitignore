@@ -71,6 +71,9 @@ crashlytics-build.properties
 /Unity/[Aa]ssets/[Ss]treamingAssets/aa.meta
 /Unity/[Aa]ssets/[Ss]treamingAssets/aa/*
 
+# Player Setting Files to be Ignored
+playconf.json
+
 # SQLite Database Instance File
 game.db
 

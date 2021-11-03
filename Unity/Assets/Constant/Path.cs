@@ -35,5 +35,16 @@ namespace Constant
                 return WorkingDirectory + "/Charts";
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static string ConfigurationFilePath
+        {
+            get
+            {
+                return "/playconf.json";
+            }
+        }
     }
 }

@@ -40,6 +40,18 @@ namespace ChartSelectScene
                 listView.ShowInactiveHiddenObjects();
                 optionView.gameObject.SetActive(false);
             };
+            optionInputAction.UI.Down.performed += context => {
+                optionView.SelectNext();
+            };
+            optionInputAction.UI.Up.performed += context => {
+                optionView.SelectBefore();
+            };
+            optionInputAction.UI.Left.performed += context => {
+                optionView.SelectBeforeInSelection();
+            };
+            optionInputAction.UI.Right.performed += context => {
+                optionView.SelectNextInSelection();
+            };
         }
 
         public void OnDestroy()
