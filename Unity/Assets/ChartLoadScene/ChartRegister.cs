@@ -11,69 +11,55 @@ using Database.SQLite.Models;
 namespace ChartLoadScene
 {
     /// <summary>
-    /// •ˆ–Ê‚ğ“o˜^‚·‚éƒNƒ‰ƒX
+    /// è­œé¢ã‚’ç™»éŒ²ã™ã‚‹ã‚¯ãƒ©ã‚¹
     /// </summary>
     public class ChartRegister
     {
-        private Sha256FileHashCalcurator hashCalcurator;
         private SQLiteServer server;
 
         /// <summary>
-        /// “o˜^Œ‹‰Ê
+        /// ç™»éŒ²çµæœ
         /// </summary>
         public enum RegistrationResult
         {
             /// <summary>
-            /// “o˜^Š®—¹
+            /// ç™»éŒ²å®Œäº†
             /// </summary>
             Done,
 
             /// <summary>
-            /// ‚·‚Å‚É“o˜^‚³‚ê‚Ä‚¢‚é
+            /// ã™ã§ã«ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹
             /// </summary>
             AlreadyRegistered,
 
             /// <summary>
-            /// •K—v–€–¢“ü—Í
+            /// å¿…è¦äº‹é …æœªå…¥åŠ›
             /// </summary>
             UnfulfilledProfile,
 
             /// <summary>
-            /// •ˆ–Ê‚ÌƒtƒH[ƒ}ƒbƒg‚ª•s³
+            /// è­œé¢ã®ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆãŒä¸æ­£
             /// </summary>
             IllegalFormat
         }
 
         /// <summary>
-        /// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+        /// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
         /// </summary>
-        /// <param name="hashCalcurator">ƒnƒbƒVƒ…‚ğŒvZ‚·‚éƒNƒ‰ƒX</param>
-        /// <param name="server">SQLiteƒT[ƒo</param>
-        public ChartRegister(Sha256FileHashCalcurator hashCalcurator, SQLiteServer server)
+        /// <param name="hashCalcurator">ãƒãƒƒã‚·ãƒ¥ã‚’è¨ˆç®—ã™ã‚‹ã‚¯ãƒ©ã‚¹</param>
+        /// <param name="server">SQLiteã‚µãƒ¼ãƒ</param>
+        public ChartRegister(SQLiteServer server)
         {
-            this.hashCalcurator = hashCalcurator;
             this.server = server;
         }
 
-        public RegistrationResult Register(string chartFilePath)
+        /// <summary>
+        /// è­œé¢ã‚’ç™»éŒ²ã™ã‚‹
+        /// </summary>
+        /// <param name="chartAnalyzer">è­œé¢ã‚’ãƒ‘ãƒ¼ã‚¹ã™ã‚‹ã‚¯ãƒ©ã‚¹</param>
+        public RegistrationResult Register(ChartAnalyzer chartAnalyzer)
         {
-            // •ˆ–Êƒtƒ@ƒCƒ‹‚ÌSHA256ƒnƒbƒVƒ…‚ğŒvZ‚·‚é
-            var hash = hashCalcurator.Calcurate(new TextLoader(chartFilePath));
-            var existingHashRecord = server.InstantiateNewQueryBuilder().Table("chart_hashes").Select("*").Where("chart_hash", "=", hash).Execute<ChartHashes>();
-            if(existingHashRecord.RecordCount == 1)
-            {
-                return RegistrationResult.AlreadyRegistered;
-            }
-
-            Chart chart;
-            try
-            {
-                chart = new ChartAnalyzer(new TextLoader(chartFilePath)).Analyze();
-            }
-            catch(Exception e)
-            {
-                return RegistrationResult.IllegalFormat;
-            }
+            var chart = chartAnalyzer.Analyze();
 
             var title     = chart.GlobalConfigurations.Title;
             var artist    = chart.GlobalConfigurations.Artist;
@@ -88,7 +74,7 @@ namespace ChartLoadScene
             bpmTransitions.Sort((a, b) => Math.Sign(a - b));
             if(bpmTransitions.Count == 0)
             {
-                // •ˆ–Êƒf[ƒ^‚ª•s³
+                // è­œé¢ãƒ‡ãƒ¼ã‚¿ãŒä¸æ­£
                 return RegistrationResult.IllegalFormat;
             }
 
@@ -98,24 +84,34 @@ namespace ChartLoadScene
 
             if(string.IsNullOrEmpty(title) || string.IsNullOrEmpty(artist))
             {
-                // ƒ^ƒCƒgƒ‹‚©ƒA[ƒeƒBƒXƒg‚ª–¢“ü—Í
+                // ã‚¿ã‚¤ãƒˆãƒ«ã‹ã‚¢ãƒ¼ãƒ†ã‚£ã‚¹ãƒˆãŒæœªå…¥åŠ›
                 return RegistrationResult.UnfulfilledProfile;
             }
 
             var isBpmUndefined = Math.Abs(maxBpm - 0.0) < double.Epsilon && Math.Abs(minBpm - 0.0) < double.Epsilon;
             if(laneCount == 0 || isBpmUndefined)
             {
-                // •ˆ–Êƒf[ƒ^‚ª•s³
+                // è­œé¢ãƒ‡ãƒ¼ã‚¿ãŒä¸æ­£
                 return RegistrationResult.IllegalFormat;
             }
 
-            // “o˜^‚³‚ê‚Ä‚¢‚È‚¢‚È‚ç•ˆ–Ê‚ğ“o˜^‚·‚é
-            server.InstantiateNewQueryBuilder().Table("chart_hashes").Insert(null, hash).Execute();
+            var identicalChartHashes = server.InstantiateNewQueryBuilder()
+                .Table("chart_hashes")
+                .Select("*")
+                .Where("chart_hash", "=", chartAnalyzer.Hash)
+                .Execute<ChartProfile>();
+
+            if(identicalChartHashes.RecordCount == 0)
+            {
+                server.InstantiateNewQueryBuilder().Table("chart_hashes").Insert(chartAnalyzer.Hash).Execute();
+            }
+
             server.InstantiateNewQueryBuilder().Table("chart_profiles").Insert(
-                null,
-                hash,
+                chartAnalyzer.Hash,
+                chartAnalyzer.Path,
                 title,
                 artist,
+                "0",
                 laneCount.ToString(),
                 level.ToString(),
                 minBpm.ToString(),

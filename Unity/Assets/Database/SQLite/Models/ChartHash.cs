@@ -6,17 +6,17 @@ using SQLiteUnity;
 namespace Database.SQLite.Models
 {
     /// <summary>
-    /// "players"ƒe[ƒuƒ‹‚Ìƒ‚ƒfƒ‹
+    /// "chart_hashes"ãƒ†ãƒ¼ãƒ–ãƒ«ã®ãƒ¢ãƒ‡ãƒ«
     /// </summary>
-    public class Players
+    public class ChartHash
     {
         private SQLiteRow origin;
 
         /// <summary>
-        /// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+        /// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
         /// </summary>
-        /// <param name="record">ƒŒƒR[ƒh</param>
-        public Players(SQLiteRow record)
+        /// <param name="record">ãƒ¬ã‚³ãƒ¼ãƒ‰</param>
+        public ChartHash(SQLiteRow record)
         {
             origin = record;
         }
@@ -29,19 +29,11 @@ namespace Database.SQLite.Models
             }
         }
 
-        public string Guid
+        public string Hash
         {
             get
             {
-                return origin.GetColumn<string>("guid", "");
-            }
-        }
-
-        public string PlayerName
-        {
-            get
-            {
-                return origin.GetColumn<string>("player_name", "sayoko_takayama");
+                return origin.GetColumn<string>("chart_hash", "");
             }
         }
     }

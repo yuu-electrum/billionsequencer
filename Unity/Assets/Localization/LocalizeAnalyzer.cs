@@ -10,7 +10,7 @@ using ResourceLoader;
 namespace Localization
 {
     /// <summary>
-    /// JSON‚Å•\Œ»‚³‚ê‚½ƒ[ƒJƒ‰ƒCƒYî•ñ‚ğƒIƒuƒWƒFƒNƒg‚É•ÏŠ·‚·‚éƒNƒ‰ƒX
+    /// JSONã§è¡¨ç¾ã•ã‚ŒãŸãƒ­ãƒ¼ã‚«ãƒ©ã‚¤ã‚ºæƒ…å ±ã‚’ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«å¤‰æ›ã™ã‚‹ã‚¯ãƒ©ã‚¹
     /// </summary>
     public class LocalizeAnalyzer
     {
@@ -37,7 +37,7 @@ namespace Localization
         private string jsonText;
 
         /// <summary>
-        /// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+        /// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
         /// </summary>
         /// <param name="reader"></param>
         public LocalizeAnalyzer(ResourceLoader.TextLoader reader)
@@ -46,7 +46,7 @@ namespace Localization
         }
 
         /// <summary>
-        /// JSONƒf[ƒ^‚ğ‰ğÍ‚·‚é
+        /// JSONãƒ‡ãƒ¼ã‚¿ã‚’è§£æã™ã‚‹
         /// </summary>
         public Localize Analyze()
         {

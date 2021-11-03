@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Localization
 {
     /// <summary>
-    /// ƒ[ƒJƒ‰ƒCƒYî•ñ‚ğ“Ç‚İ‚ŞƒNƒ‰ƒX
+    /// ãƒ­ãƒ¼ã‚«ãƒ©ã‚¤ã‚ºæƒ…å ±ã‚’èª­ã¿è¾¼ã‚€ã‚¯ãƒ©ã‚¹
     /// </summary>
     public class LocalizeLoader
     {
@@ -16,7 +16,7 @@ namespace Localization
         private string currentLocale = null;
 
         /// <summary>
-        /// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+        /// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
         /// </summary>
         private LocalizeLoader()
         {
@@ -24,7 +24,7 @@ namespace Localization
         }
 
         /// <summary>
-        /// ƒNƒ‰ƒXƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚·‚é
+        /// ã‚¯ãƒ©ã‚¹ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã™ã‚‹
         /// </summary>
         public static LocalizeLoader Instance
         {
@@ -46,9 +46,9 @@ namespace Localization
         }
 
         /// <summary>
-        /// ƒƒP[ƒ‹‚ğæ“¾‚Ü‚½‚Íİ’è‚·‚é
+        /// ãƒ­ã‚±ãƒ¼ãƒ«ã‚’å–å¾—ã¾ãŸã¯è¨­å®šã™ã‚‹
         /// </summary>
-        /// <param name="locale">ƒƒP[ƒ‹ƒR[ƒh</param>
+        /// <param name="locale">ãƒ­ã‚±ãƒ¼ãƒ«ã‚³ãƒ¼ãƒ‰</param>
         public string Locale
         {
             set
@@ -63,10 +63,10 @@ namespace Localization
         }
 
         /// <summary>
-        /// ƒ[ƒJƒ‰ƒCƒYî•ñ‚ğæ“¾‚·‚é
+        /// ãƒ­ãƒ¼ã‚«ãƒ©ã‚¤ã‚ºæƒ…å ±ã‚’å–å¾—ã™ã‚‹
         /// </summary>
-        /// <param name="key">ƒ[ƒJƒ‰ƒCƒYî•ñ‚ÌƒL[</param>
-        /// <returns>ƒ[ƒJƒ‰ƒCƒY•¶š—ñ</returns>
+        /// <param name="key">ãƒ­ãƒ¼ã‚«ãƒ©ã‚¤ã‚ºæƒ…å ±ã®ã‚­ãƒ¼</param>
+        /// <returns>ãƒ­ãƒ¼ã‚«ãƒ©ã‚¤ã‚ºæ–‡å­—åˆ—</returns>
         public string Find(string key)
         {
             if(currentLocale == null || !localizations.ContainsKey(currentLocale))
@@ -79,10 +79,10 @@ namespace Localization
         }
 
         /// <summary>
-        /// ƒ[ƒJƒ‰ƒCƒYî•ñ‚ğæ“¾‚µA‘®•t‚«•¶š—ñ‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡‚Í“n‚³‚ê‚½”z—ñ‚Å‚»‚ê‚ğ’u‚«Š·‚¦‚é
+        /// ãƒ­ãƒ¼ã‚«ãƒ©ã‚¤ã‚ºæƒ…å ±ã‚’å–å¾—ã—ã€æ›¸å¼ä»˜ãæ–‡å­—åˆ—ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹å ´åˆã¯æ¸¡ã•ã‚ŒãŸé…åˆ—ã§ãã‚Œã‚’ç½®ãæ›ãˆã‚‹
         /// </summary>
-        /// <param name="key">ƒ[ƒJƒ‰ƒCƒYî•ñ‚ÌƒL[</param>
-        /// <param name="formatCorrespondingValues">‘®•t‚«•¶š—ñ‚É‘Î‰‚·‚éƒpƒ‰ƒ[ƒ^</param>
+        /// <param name="key">ãƒ­ãƒ¼ã‚«ãƒ©ã‚¤ã‚ºæƒ…å ±ã®ã‚­ãƒ¼</param>
+        /// <param name="formatCorrespondingValues">æ›¸å¼ä»˜ãæ–‡å­—åˆ—ã«å¯¾å¿œã™ã‚‹ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿</param>
         /// <returns></returns>
         public string Format(string key, params string[] formatCorrespondingValues)
         {

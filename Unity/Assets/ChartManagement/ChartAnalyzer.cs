@@ -10,21 +10,30 @@ using ResourceLoader;
 namespace ChartManagement
 {
     /// <summary>
-    /// ���ʂ�ǂݍ���ŉ�͂���N���X
+    /// 譜面を読み込んで解析するクラス
     /// </summary>
     public class ChartAnalyzer
     {
         private string jsonText;
+        private string hash;
+        private string filePath;
+        private IFileHashCalcurator fileHashCalcurator;
 
         /// <summary>
-        /// �R���X�g���N�^
+        /// コンストラクタ
         /// </summary>
         /// <param name="reader"></param>
-        public ChartAnalyzer(ResourceLoader.TextLoader reader)
+        public ChartAnalyzer(IFileHashCalcurator fileHashCalcurator, ResourceLoader.TextLoader reader)
         {
             jsonText = reader.ReadAll();
+            this.fileHashCalcurator = fileHashCalcurator;
+            hash = this.fileHashCalcurator.Calcurate(reader);
+            filePath = reader.Path;
         }
 
+        /// <summary>
+        /// 譜面を解析する
+        /// </summary>
         public Chart Analyze()
         {
             var serializer = new DataContractJsonSerializer(typeof(Chart));
@@ -33,6 +42,28 @@ namespace ChartManagement
             var jsonObject = serializer.ReadObject(memoryStream) as Chart;
 
             return jsonObject;
+        }
+
+        /// <summary>
+        /// 譜面のハッシュ値を取得する
+        /// </summary>
+        public string Hash
+        {
+            get
+            {
+                return hash;
+            }
+        }
+
+        /// <summary>
+        /// 譜面のパスを取得する
+        /// </summary>
+        public string Path
+        {
+            get
+            {
+                return filePath;
+            }
         }
     }
 }

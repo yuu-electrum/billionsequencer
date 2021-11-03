@@ -7,7 +7,7 @@ using System.IO;
 namespace ResourceLoader
 {
     /// <summary>
-    /// ƒeƒLƒXƒgƒf[ƒ^‚ğ“Ç‚İ‚Ş
+    /// ãƒ†ã‚­ã‚¹ãƒˆãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã‚€
     /// </summary>
     public class TextLoader
     {
@@ -15,12 +15,12 @@ namespace ResourceLoader
         private bool fileExists;
        
         /// <summary>
-        /// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+        /// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
         /// </summary>
-        /// <param name="path">ƒeƒLƒXƒgƒtƒ@ƒCƒ‹‚ÌƒpƒX</param>
+        /// <param name="path">ãƒ†ã‚­ã‚¹ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹</param>
         public TextLoader(string path)
         {
-            this.path = path;
+            this.path = path.Replace('\\', '/');
             if(path == null || !File.Exists(path))
             {
                 Debug.LogErrorFormat("A text file {0} is not existing.", path);
@@ -33,22 +33,22 @@ namespace ResourceLoader
         }
 
         /// <summary>
-        /// ƒeƒLƒXƒgƒtƒ@ƒCƒ‹‚Ì’†g‚ğ‚·‚×‚Ä“Ç‚İ‚Ş
+        /// ãƒ†ã‚­ã‚¹ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã®ä¸­èº«ã‚’ã™ã¹ã¦èª­ã¿è¾¼ã‚€
         /// </summary>
-        /// <returns>ƒeƒLƒXƒgƒf[ƒ^</returns>
+        /// <returns>ãƒ†ã‚­ã‚¹ãƒˆãƒ‡ãƒ¼ã‚¿</returns>
         public string ReadAll()
         {
-            var streamReader = new StreamReader(path);
-            var content = "";
-
             if(!fileExists)
             {
                 return "";
             }
 
+            var streamReader = new StreamReader(path, System.Text.Encoding.GetEncoding("UTF-8"));
+            var content = "";
+
             try
             {
-                // JSON‚Å‹Lq‚³‚ê‚½¶‚Ìƒf[ƒ^‚ğ“Ç‚İ‚Ş
+                // JSONã§è¨˜è¿°ã•ã‚ŒãŸç”Ÿã®ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã‚€
                 content = streamReader.ReadToEnd();
                 streamReader.Close();
             }
@@ -58,6 +58,17 @@ namespace ResourceLoader
             }
 
             return content;
+        }
+
+        /// <summary>
+        /// ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‚’å–å¾—ã™ã‚‹
+        /// </summary>
+        public string Path
+        {
+            get
+            {
+                return path;
+            }
         }
     }
 }

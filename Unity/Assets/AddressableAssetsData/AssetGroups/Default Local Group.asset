@@ -16,7 +16,19 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: 392544423c1853d438aa75bc4fa1e736
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 108f1abffaa80bf4eb0a1ea47b7aa86e
+    m_Address: Assets/UITextures/LeftArrow.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  - m_GUID: 02bf8f79620c50c4bbfdc2173699e92a
+    m_Address: Assets/UITextures/RightArrow.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 8b426198ad1968e45a98d50ea1346aec, type: 2}
   m_SchemaSet:

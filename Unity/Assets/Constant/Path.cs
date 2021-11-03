@@ -6,12 +6,12 @@ using System.IO;
 namespace Constant
 {
     /// <summary>
-    /// ƒpƒX‚ÉŠÖ‚·‚é’è”
+    /// ãƒ‘ã‚¹ã«é–¢ã™ã‚‹å®šæ•°
     /// </summary>
     public static class Path
     {
         /// <summary>
-        /// ƒQ[ƒ€‚ğÀs‚µ‚Ä‚¢‚éƒfƒBƒŒƒNƒgƒŠ‚ğæ“¾‚·‚é
+        /// ã‚²ãƒ¼ãƒ ã‚’å®Ÿè¡Œã—ã¦ã„ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’å–å¾—ã™ã‚‹
         /// </summary>
         public static string WorkingDirectory
         {
@@ -20,19 +20,30 @@ namespace Constant
 #if UNITY_EDITOR
                 return Directory.GetCurrentDirectory();
 #else
-                return System.AppDomain.CurrentDomain.BaseDirectory.TrimEnd("\\");
+                return System.AppDomain.CurrentDomain.BaseDirectory.TrimEnd('\\');
 #endif
             }
         }
 
         /// <summary>
-        /// •ˆ–Êƒtƒ@ƒCƒ‹‚ªŠi”[‚³‚ê‚Ä‚¢‚éƒfƒBƒŒƒNƒgƒŠ‚ğæ“¾‚·‚é
+        /// è­œé¢ãƒ•ã‚¡ã‚¤ãƒ«ãŒæ ¼ç´ã•ã‚Œã¦ã„ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’å–å¾—ã™ã‚‹
         /// </summary>
         public static string ChartDirectory
         {
             get
             {
-                return WorkingDirectory + "\\Charts";
+                return WorkingDirectory + "/Charts";
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static string ConfigurationFilePath
+        {
+            get
+            {
+                return "/playconf.json";
             }
         }
     }

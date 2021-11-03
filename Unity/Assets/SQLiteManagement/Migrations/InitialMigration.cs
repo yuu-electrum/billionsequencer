@@ -7,7 +7,7 @@ namespace SQLiteManagement
     namespace Migrations
     {
         /// <summary>
-        /// マイグレーションのインターフェース
+        /// 繝槭う繧ｰ繝ｬ繝ｼ繧ｷ繝ｧ繝ｳ縺ｮ繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ
         /// </summary>
         public class InitialMigration: IMigration
         {
@@ -26,23 +26,25 @@ namespace SQLiteManagement
                     return $@"
 CREATE TABLE chart_hashes
 (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    chart_hash STRING UNIQUE NOT NULL
+    chart_hash STRING,
+    PRIMARY KEY (chart_hash),
+    UNIQUE (chart_hash)
 );
 
 CREATE TABLE players
 (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    guid STRING NOT NULL,
-    player_name STRING DEFAULT 'sayoko_takayama'
+    guid STRING,
+    player_name STRING DEFAULT '{Constant.SQLite.DefaultPlayerName}',
+    PRIMARY KEY (guid)
 );
 
 CREATE TABLE chart_profiles
 (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
     chart_hash STRING,
+    file_path STRING,
     title STRING,
     artist STRING,
+    note_count INTEGER NOT NULL,
     lane_count INTEGER NOT NULL,
     level INTEGER NOT NULL,
     min_bpm REAL NOT NULL,
@@ -50,6 +52,17 @@ CREATE TABLE chart_profiles
     sequence_designer STRING,
     FOREIGN KEY(chart_hash) REFERENCES chart_hashes(chart_hash)
 );
+
+CREATE TABLE score_profiles
+(
+    guid STRING NOT NULL,
+    chart_hash STRING NOT NULL,
+    play_result TEXT COLLATE BINARY NOT NULL DEFAULT 'never_played',
+    score INTEGER NOT NULL,
+    FOREIGN KEY (guid) REFERENCES players(guid),
+    FOREIGN KEY (chart_hash) REFERENCES chart_hashes(chart_hash),
+    CHECK(play_result = 'never_played' OR play_result = 'failed' OR play_result = 'succeeded_over_reference' OR play_result = 'succeeded_life_retaining')
+)
 ";
                 }
             }

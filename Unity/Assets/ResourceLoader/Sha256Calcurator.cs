@@ -7,7 +7,7 @@ using System.Security.Cryptography;
 namespace ResourceLoader
 {
     /// <summary>
-    /// ƒeƒLƒXƒgƒtƒ@ƒCƒ‹‚ÌƒnƒbƒVƒ…’l‚ğSHA256‚ÅŒvZ‚·‚é
+    /// ãƒ†ã‚­ã‚¹ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒãƒƒã‚·ãƒ¥å€¤ã‚’SHA256ã§è¨ˆç®—ã™ã‚‹
     /// </summary>
     public class Sha256FileHashCalcurator: IFileHashCalcurator
     {

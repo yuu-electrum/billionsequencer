@@ -8,7 +8,7 @@ using UnityEngine;
 namespace Database.SQLite
 {
     /// <summary>
-    /// SQLiteÇÃÉNÉGÉäÉrÉãÉ_
+    /// SQLite„ÅÆ„ÇØ„Ç®„É™„Éì„É´„ÉÄ
     /// </summary>
     public class SQLiteQueryBuilder: IQueryBuilder
     {
@@ -85,7 +85,7 @@ namespace Database.SQLite
                 return this;
             }
 
-            stringParts.Append(string.Format("UPDATE {0}{1}SET {2} = {3}{4}", table, System.Environment.NewLine, column, value, System.Environment.NewLine));
+            stringParts.Append(string.Format("UPDATE {0}{1}SET {2} = {3}{4}", table, System.Environment.NewLine, column, QuotationConverter.Convert(value), System.Environment.NewLine));
             return this;
         }
 
@@ -121,10 +121,35 @@ namespace Database.SQLite
                 return this;
             }
 
-            stringParts.Append(string.Format("DELETE FROM {0} WHERE {1} {2} {3}", table, column, comparisonOperator, value));
+            stringParts.Append(string.Format("DELETE FROM {0} WHERE {1} {2} {3}", table, column, comparisonOperator, QuotationConverter.Convert(value)));
 
             return this;
         }
+
+        /*
+        public IQueryBuilder ExecuteGroupBy(params string[] groupingColumns)
+        {
+            if(string.IsNullOrEmpty(table))
+            {
+                return this;
+            }
+
+            stringParts.Append(string.Format("GROUP BY "));
+            for(var columnIndex = 0; columnIndex < groupingColumns.Length; columnIndex++)
+            {
+                if(columnIndex < groupingColumns.Length - 1)
+                {
+                    stringParts.Append(string.Format("{0}, ", groupingColumns[columnIndex]));
+                }
+                else
+                {
+                    stringParts.Append(string.Format("{0}{1};", groupingColumns[columnIndex], System.Environment.NewLine));
+                }
+            }
+
+            return this;
+        }
+        */
 
         public IQueryResult<T> Execute<T>()
         {

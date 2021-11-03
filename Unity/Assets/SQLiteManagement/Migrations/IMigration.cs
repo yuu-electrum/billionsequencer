@@ -7,18 +7,18 @@ namespace SQLiteManagement
     namespace Migrations
     {
         /// <summary>
-        /// ƒ}ƒCƒOƒŒ[ƒVƒ‡ƒ“‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX
+        /// ãƒã‚¤ã‚°ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹
         /// </summary>
         public interface IMigration
         {
             /// <summary>
-            /// ƒ}ƒCƒOƒŒ[ƒVƒ‡ƒ“IDB¬‚³‚¢‚Ù‚Ç—Dæ“I‚ÉÀs‚³‚ê‚é
+            /// ãƒã‚¤ã‚°ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³IDã€‚å°ã•ã„ã»ã©å„ªå…ˆçš„ã«å®Ÿè¡Œã•ã‚Œã‚‹
             /// </summary>
             /// <returns></returns>
             public int Id { get; }
 
             /// <summary>
-            /// ƒ}ƒCƒOƒŒ[ƒVƒ‡ƒ“‚ğÀs
+            /// ãƒã‚¤ã‚°ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å®Ÿè¡Œ
             /// </summary>
             public string ExecutionQuery { get; }
         }

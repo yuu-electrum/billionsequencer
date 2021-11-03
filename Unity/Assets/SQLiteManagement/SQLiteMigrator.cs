@@ -7,7 +7,7 @@ using SQLiteManagement.Migrations;
 namespace SQLiteManagement
 {
     /// <summary>
-    /// SQLiteƒf[ƒ^ƒx[ƒX‚É‘Î‚µ‚Äƒ}ƒCƒOƒŒ[ƒVƒ‡ƒ“‚ğÀs‚·‚éƒNƒ‰ƒX
+    /// SQLiteãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã«å¯¾ã—ã¦ãƒã‚¤ã‚°ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å®Ÿè¡Œã™ã‚‹ã‚¯ãƒ©ã‚¹
     /// </summary>
     public class SQLiteMigrator
     {
@@ -15,7 +15,7 @@ namespace SQLiteManagement
         private List<IMigration> migrations;
 
         /// <summary>
-        /// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+        /// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
         /// </summary>
         /// <param name="instance"></param>
         public SQLiteMigrator(SQLite instance)
@@ -23,19 +23,19 @@ namespace SQLiteManagement
             sqLiteInstance = instance;
             migrations = new List<IMigration>();
 
-            // ƒ}ƒCƒOƒŒ[ƒVƒ‡ƒ“‚ğ’Ç‰Á‚µ‚Ä‚¢‚­
+            // ãƒã‚¤ã‚°ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ã‚’è¿½åŠ ã—ã¦ã„ã
             migrations.Add(new InitialMigration());
 
-            // ƒ}ƒCƒOƒŒ[ƒVƒ‡ƒ“‚ğA—Dæ“x‚ª¸‡‚É‚È‚é‚æ‚¤‚É•À‚Ñ‘Ö‚¦‚é
+            // ãƒã‚¤ã‚°ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ã‚’ã€å„ªå…ˆåº¦ãŒæ˜‡é †ã«ãªã‚‹ã‚ˆã†ã«ä¸¦ã³æ›¿ãˆã‚‹
             migrations.Sort((a, b) => b.Id - a.Id);
         }
 
         /// <summary>
-        /// ƒ}ƒCƒOƒŒ[ƒVƒ‡ƒ“‚ğÀs‚·‚é
+        /// ãƒã‚¤ã‚°ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å®Ÿè¡Œã™ã‚‹
         /// </summary>
         public void Execute()
         {
-            // ƒ}ƒCƒOƒŒ[ƒVƒ‡ƒ“—š—ğ‚ğQÆ‚µ‚ÄA‚·‚Å‚ÉÀs‚³‚ê‚½ƒ}ƒCƒOƒŒ[ƒVƒ‡ƒ“‚ğƒXƒLƒbƒv‚µ‚Â‚ÂÀs‚·‚é
+            // ãƒã‚¤ã‚°ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³å±¥æ­´ã‚’å‚ç…§ã—ã¦ã€ã™ã§ã«å®Ÿè¡Œã•ã‚ŒãŸãƒã‚¤ã‚°ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ã‚’ã‚¹ã‚­ãƒƒãƒ—ã—ã¤ã¤å®Ÿè¡Œã™ã‚‹
             if(sqLiteInstance == null)
             {
                 Debug.LogError("A SQLite instance is null for any reason and the migration is aborted.");
@@ -65,7 +65,7 @@ namespace SQLiteManagement
         }
 
         /// <summary>
-        /// ƒ}ƒCƒOƒŒ[ƒVƒ‡ƒ“—š—ğ‚Ìƒe[ƒuƒ‹‚ğì¬‚·‚éƒNƒGƒŠ•¶‚ğæ“¾‚·‚é
+        /// ãƒã‚¤ã‚°ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³å±¥æ­´ã®ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ä½œæˆã™ã‚‹ã‚¯ã‚¨ãƒªæ–‡ã‚’å–å¾—ã™ã‚‹
         /// </summary>
         public static string MigrationHistoryCreateQuery
         {

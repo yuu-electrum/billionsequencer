@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.UI;
+using UnityEngine.SceneManagement;
+using Cysharp.Threading.Tasks;
 
 namespace TitleScene
 {
     /// <summary>
-    /// ƒ^ƒCƒgƒ‹‰æ–Ê‚Å‰½‚©‚Ì‘€ì‚ª‚³‚ê‚½‚É”½‰‚·‚éƒXƒNƒŠƒvƒg
+    /// ã‚¿ã‚¤ãƒˆãƒ«ç”»é¢ã§ä½•ã‹ã®æ“ä½œãŒã•ã‚ŒãŸæ™‚ã«åå¿œã™ã‚‹ã‚¹ã‚¯ãƒªãƒ—ãƒˆ
     /// </summary>
     public class PressAnyKey: MonoBehaviour
     {
@@ -21,19 +25,30 @@ namespace TitleScene
         [SerializeField]
         private int sceneExitTriggerStateHash;
 
+        [SerializeField]
+        private AudioListener audioListener;
+
+        [SerializeField]
+        private InputSystemUIInputModule inputModule;
+
+        [SerializeField]
+        private EventSystem eventSystem;
 
         private TitleAction action;
-
+        private bool isNextSceneLoadingDone;
 
         public void Awake()
         {
             action = new TitleAction();
             action.Enable();
+            isNextSceneLoadingDone = false;
 
             sceneExitTriggerStateHash = Animator.StringToHash(sceneExitTriggerStateTagName);
             action.UI.Proceed.performed += context =>
             {
-                // ‰½‚©ƒL[‚ª‰Ÿ‚³‚ê‚½‚Ì“®ì
+                action.Disable();
+                StartCoroutine(LoadNextSceneAsync());
+                // ä½•ã‹ã‚­ãƒ¼ãŒæŠ¼ã•ã‚ŒãŸæ™‚ã®å‹•ä½œ
                 foreach(var animator in animators)
                 {
                     animator.SetBool("WillProceed", true);
@@ -49,10 +64,29 @@ namespace TitleScene
                 allAnimationEnds = animator.GetCurrentAnimatorStateInfo(0).tagHash == sceneExitTriggerStateHash && animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f;
             }
 
-            if(allAnimationEnds)
+            if(allAnimationEnds && isNextSceneLoadingDone)
             {
-
+                StartCoroutine(UnloadSceneAsync());
             }
+        }
+
+        /// <summary>
+        /// æ¬¡ã®ã‚·ãƒ¼ãƒ³ã‚’éåŒæœŸã§èª­ã¿è¾¼ã‚€
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator LoadNextSceneAsync()
+        {
+            yield return SceneManager.LoadSceneAsync("ChartSelectScene", LoadSceneMode.Additive);
+
+            Destroy(audioListener);
+            Destroy(inputModule);
+            Destroy(eventSystem);
+            isNextSceneLoadingDone = true;
+        }
+
+        private IEnumerator UnloadSceneAsync()
+        {
+            yield return SceneManager.UnloadSceneAsync("TitleScene");
         }
     }
 }
